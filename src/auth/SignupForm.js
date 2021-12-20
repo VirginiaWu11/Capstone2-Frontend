@@ -47,7 +47,7 @@ export default function SignupForm() {
     onSubmit: async (values) => {
       let result = await signup(values);
       if (result.success) {
-        navigate("/companies");
+        navigate("/coins");
       } else {
         setFormErrors(result.errors);
       }

@@ -30,13 +30,13 @@ export default function SigninForm() {
 
   const formik = useFormik({
     initialValues: {
-      username: "123abc",
-      password: "111111",
+      username: "testuser1",
+      password: "testuser",
     },
     onSubmit: async (values) => {
       let result = await signin(values);
       if (result.success) {
-        navigate("/companies");
+        navigate("/coins");
       } else {
         setFormErrors(result.errors);
       }
