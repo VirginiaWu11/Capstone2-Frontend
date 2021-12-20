@@ -4,7 +4,7 @@ const BASE_URL = "https://api.coingecko.com/api/v3";
 
 class CoinGeckoApi {
   static async request(endpoint, data = {}, method = "get") {
-    console.debug("API Call:", endpoint, data, method);
+    console.debug("Coin Gecko API Call:", endpoint, data, method);
 
     const url = `${BASE_URL}/${endpoint}`;
     const params = method === "get" ? data : {};
@@ -23,6 +23,7 @@ class CoinGeckoApi {
   /** Get details on a coin by id. */
   static async getCoin(id) {
     let res = await this.request(`coins/${id}`);
+    console.debug("CoinGeckoApi getCoin", res);
     return res;
   }
 
@@ -35,6 +36,7 @@ class CoinGeckoApi {
       page: 1,
       sparkline: false,
     });
+    console.debug("CoinGeckoApi getCoins", res);
     return res;
   }
 
