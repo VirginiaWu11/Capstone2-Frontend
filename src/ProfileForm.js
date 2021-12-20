@@ -19,7 +19,6 @@ import { useFormik } from "formik";
 const theme = createTheme();
 
 const validationSchema = yup.object({
-  password: yup.string().required("Password is required").min(6),
   firstName: yup.string().required("First Name is required"),
   lastName: yup.string().required("Last Name is required"),
   email: yup
@@ -37,7 +36,6 @@ export default function ProfileForm({ signup }) {
 
   const formik = useFormik({
     initialValues: {
-      password: "",
       firstName: `${currentUser.firstName}`,
       lastName: `${currentUser.lastName}`,
       email: `${currentUser.email}`,
@@ -161,27 +159,7 @@ export default function ProfileForm({ signup }) {
                       onBlur={formik.handleBlur}
                     />
                   </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      name="password"
-                      label="password"
-                      type="password"
-                      id="password"
-                      autoComplete="new-password"
-                      value={formik.values.password}
-                      onChange={formik.handleChange}
-                      error={
-                        formik.touched.password &&
-                        Boolean(formik.errors.password)
-                      }
-                      helperText={
-                        formik.touched.password && formik.errors.password
-                      }
-                      onBlur={formik.handleBlur}
-                    />
-                  </Grid>
+                  <Grid item xs={12}></Grid>
                 </Grid>
                 <Button
                   type="submit"
