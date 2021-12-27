@@ -19,18 +19,18 @@ const AllRoutes = () => {
         exact
         path="/profile"
         element={
-          // <PrivateRoute>
-          <ProfileForm />
-          // </PrivateRoute>
+          <PrivateRoute>
+            <ProfileForm />
+          </PrivateRoute>
         }
       />
       <Route
         exact
         path="/coins"
         element={
-          // <PrivateRoute>
-          <CoinList />
-          // </PrivateRoute>
+          <PrivateRoute>
+            <CoinList />
+          </PrivateRoute>
         }
       />
       <Route
