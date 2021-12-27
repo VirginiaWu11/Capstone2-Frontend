@@ -25,8 +25,16 @@ const CoinCard = ({ coin }) => {
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
             {coin.symbol}
           </Typography>
-          <Typography variant="body2">{`Current Price: $${coin.current_price.toLocaleString()}`}</Typography>
-          <Typography variant="body2">{`Market Cap: $${coin.market_cap.toLocaleString()}`}</Typography>
+          {coin.current_price ? (
+            <Typography variant="body2">{`Current Price: $${coin.current_price.toLocaleString()}`}</Typography>
+          ) : (
+            <Typography variant="body2">{`Current Price: Not Available`}</Typography>
+          )}
+          {coin.market_cap ? (
+            <Typography variant="body2">{`Market Cap: $${coin.market_cap.toLocaleString()}`}</Typography>
+          ) : (
+            <Typography variant="body2">{`Market Cap: Not Available`}</Typography>
+          )}
         </CardContent>
       </Box>
       {coin.image && (

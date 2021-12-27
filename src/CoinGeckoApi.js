@@ -28,11 +28,11 @@ class CoinGeckoApi {
   }
 
   /** Get top-100 coins by market cap. */
-  static async getCoins(page = 1) {
+  static async getCoins(page = 1, itemsPerPage = 20) {
     let res = await this.request(`coins/markets`, {
       vs_currency: "usd",
       order: "market_cap_desc",
-      per_page: 20,
+      per_page: itemsPerPage,
       page: page,
       sparkline: false,
     });
