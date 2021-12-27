@@ -27,7 +27,7 @@ const CoinList = () => {
         {coins.length ? (
           <CoinsCardList coins={coins} />
         ) : (
-          <Grid item xs={8}>
+          <Grid item xs={3}>
             <p>No coins found</p>
           </Grid>
         )}

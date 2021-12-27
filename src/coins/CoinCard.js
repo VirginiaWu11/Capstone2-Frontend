@@ -34,9 +34,9 @@ const CoinCard = ({ coin }) => {
           component="img"
           sx={{
             objectFit: "contain",
-            width: "8rem",
-            display: { xs: "none", sm: "block" },
-            m: 1,
+            width: "5em",
+            display: { sm: "block" },
+            mr: 2,
           }}
           image={coin.image}
           alt={`${coin.name} logo`}
