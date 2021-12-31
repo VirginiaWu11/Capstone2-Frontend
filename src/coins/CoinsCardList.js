@@ -6,14 +6,8 @@ import Button from "@mui/material/Button";
 import { useModalContext } from "./ModalContext";
 
 const CoinsCardList = ({ coins }) => {
-  const {
-    CoinModal,
-    open,
-    handleOpen,
-    handleClose,
-    clickedCoin,
-    setClickedCoin,
-  } = useModalContext();
+  const { CoinModal, handleOpen, clickedCoin, setClickedCoin } =
+    useModalContext();
   return (
     <div>
       <Grid
