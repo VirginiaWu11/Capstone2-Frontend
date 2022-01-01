@@ -1,7 +1,12 @@
-import React, { useState, useContext } from "react";
-import Modal from "@mui/material/Modal";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
+import React, { useState, useContext, useEffect } from "react";
+import { CoinChart } from "./CoinChart";
+import CoinGeckoApi from "../CoinGeckoApi";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 export const ModalContext = React.createContext();
 
@@ -19,33 +24,80 @@ const style = {
 
 export const ModalProvider = ({ children }) => {
   const [open, setOpen] = useState(false);
-  const [clickedCoin, setClickedCoin] = useState(false);
+  const [clickedCoin, setClickedCoin] = useState({});
+  const [coinData, setCoinData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleOpen = () => {
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
 
+  useEffect(() => {
+    const getCoinMarketData = async (id) => {
+      const resp = await CoinGeckoApi.getCoinMarketChart(id);
+      setCoinData(resp);
+    };
+    getCoinMarketData(clickedCoin.id);
+    setIsLoading(false);
+  }, [clickedCoin.id]);
+
+  //   if (isLoading) {
+  //     return <p>Loading &hellip;</p>;
+  //   }
+  console.debug({ clickedCoin, isLoading }, coinData.prices);
+
   const CoinModal = () => {
     return (
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            {clickedCoin.name}
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            details - chart placeholder
-          </Typography>
-        </Box>
-      </Modal>
+      <div>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          maxWidth="lg"
+          fullWidth
+        >
+          <DialogTitle id="alert-dialog-title">{clickedCoin.name}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="dialog-description">
+              Market Cap: <strong>{clickedCoin.market_cap}</strong>
+            </DialogContentText>
+            <DialogContentText id="dialog-description">
+              Current Price: <strong>{clickedCoin.current_price}</strong>
+            </DialogContentText>
+            <DialogContentText id="dialog-description">
+              24Hr Trading Volume: <strong>{clickedCoin.total_volume}</strong>
+            </DialogContentText>
+            <DialogContentText id="dialog-description">
+              Fully Diluted Valuation:{" "}
+              <strong>{clickedCoin.fully_diluted_valuation}</strong>
+            </DialogContentText>
+            <DialogContentText id="dialog-description">
+              Circulating supply:{" "}
+              <strong>{clickedCoin.circulating_supply}</strong>
+            </DialogContentText>
+            <DialogContentText id="dialog-description">
+              Total Supply: <strong>{clickedCoin.total_supply}</strong>
+            </DialogContentText>
+            <DialogContentText id="dialog-description">
+              Max Supply: <strong>{clickedCoin.max_supply}</strong>
+            </DialogContentText>
+          </DialogContent>
+          <DialogContent>
+            {coinData.prices ? <CoinChart coinData={coinData.prices} /> : null}
+          </DialogContent>
+
+          <DialogActions>
+            <Button onClick={handleClose}>Pin to Watchlist</Button>
+            <Button onClick={handleClose} autoFocus>
+              Add to Dashboard
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
     );
   };
-
   const value = {
     CoinModal,
     open,

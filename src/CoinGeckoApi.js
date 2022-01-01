@@ -27,7 +27,7 @@ class CoinGeckoApi {
     return res;
   }
 
-  /** Get top-100 coins by market cap. */
+  /** Get paginated coins by market cap. */
   static async getCoins(page = 1, itemsPerPage = 20) {
     let res = await this.request(`coins/markets`, {
       vs_currency: "usd",
@@ -37,6 +37,15 @@ class CoinGeckoApi {
       sparkline: false,
     });
     console.debug("CoinGeckoApi getCoins", res);
+    return res;
+  }
+
+  static async getCoinMarketChart(id) {
+    let res = await this.request(`coins/${id}/market_chart`, {
+      vs_currency: "usd",
+      days: 14,
+    });
+    console.debug("CoinGeckoApi getCoinMarketChart", res);
     return res;
   }
 
