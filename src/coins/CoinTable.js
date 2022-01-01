@@ -29,20 +29,60 @@ const columns = [
     ),
   },
   { id: "name", label: "Name", minWidth: 170 },
-  { id: "symbol", label: "Symbol", minWidth: 100 },
+  {
+    id: "symbol",
+    label: "Symbol",
+    minWidth: 100,
+    format: (value) => value.toUpperCase(),
+  },
   {
     id: "current_price",
     label: "Current Price",
     minWidth: 170,
-    align: "right",
+    align: "center",
     format: (value) => "$" + value.toLocaleString("en-US"),
   },
   {
     id: "market_cap",
     label: "Market Cap",
     minWidth: 170,
-    align: "right",
+    align: "center",
     format: (value) => "$" + value.toLocaleString("en-US"),
+  },
+  {
+    id: "total_volume",
+    label: "24Hr Volume",
+    minWidth: 170,
+    align: "center",
+    format: (value) => "$" + value.toLocaleString("en-US"),
+  },
+  {
+    id: "fully_diluted_valuation",
+    label: "Fully Diluted Valuation",
+    minWidth: 170,
+    align: "center",
+    format: (value) => "$" + value.toLocaleString("en-US"),
+  },
+  {
+    id: "circulating_supply",
+    label: "Circulating Supply",
+    minWidth: 170,
+    align: "center",
+    format: (value) => value.toLocaleString("en-US"),
+  },
+  {
+    id: "total_supply",
+    label: "Total Supply",
+    minWidth: 170,
+    align: "center",
+    format: (value) => value.toLocaleString("en-US"),
+  },
+  {
+    id: "max_supply",
+    label: "Max Supply",
+    minWidth: 170,
+    align: "center",
+    format: (value) => value.toLocaleString("en-US"),
   },
 ];
 
@@ -56,11 +96,7 @@ const CoinTable = ({ coins }) => {
           <TableHead>
             <TableRow>
               {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
+                <TableCell key={column.id} align={column.align}>
                   {column.label}
                 </TableCell>
               ))}
@@ -91,7 +127,9 @@ const CoinTable = ({ coins }) => {
                         value.match(/^https?:\/\/.+\/.+$/)
                           ? column.format(row)
                           : null}
+                        {column.id === "symbol" ? column.format(value) : null}
                         {!column.format ? value : null}
+                        {!value ? "N/A" : null}
                       </TableCell>
                     );
                   })}
