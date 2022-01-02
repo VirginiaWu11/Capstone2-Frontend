@@ -40,10 +40,10 @@ class CoinGeckoApi {
     return res;
   }
 
-  static async getCoinMarketChart(id) {
+  static async getCoinMarketChart(id, days) {
     let res = await this.request(`coins/${id}/market_chart`, {
       vs_currency: "usd",
-      days: 14,
+      days: days,
     });
     console.debug("CoinGeckoApi getCoinMarketChart", res);
     return res;

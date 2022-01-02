@@ -7,26 +7,17 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
 export const ModalContext = React.createContext();
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
 
 export const ModalProvider = ({ children }) => {
   const [open, setOpen] = useState(false);
   const [clickedCoin, setClickedCoin] = useState({});
   const [coinData, setCoinData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [view, setView] = useState(7);
 
   const handleOpen = () => {
     setOpen(true);
@@ -34,18 +25,46 @@ export const ModalProvider = ({ children }) => {
   const handleClose = () => setOpen(false);
 
   useEffect(() => {
-    const getCoinMarketData = async (id) => {
-      const resp = await CoinGeckoApi.getCoinMarketChart(id);
+    const getCoinMarketData = async (id, days) => {
+      const resp = await CoinGeckoApi.getCoinMarketChart(id, days);
       setCoinData(resp);
     };
-    getCoinMarketData(clickedCoin.id);
+    getCoinMarketData(clickedCoin.id, view);
     setIsLoading(false);
-  }, [clickedCoin.id]);
+  }, [clickedCoin.id, view]);
 
   //   if (isLoading) {
   //     return <p>Loading &hellip;</p>;
   //   }
   console.debug({ clickedCoin, isLoading }, coinData.prices);
+
+  const VerticalToggleButtons = () => {
+    const handleChange = (event, nextView) => {
+      setView(nextView);
+    };
+
+    return (
+      <ToggleButtonGroup
+        value={view}
+        exclusive
+        onChange={handleChange}
+        sx={{ ml: 1, mt: 2 }}
+      >
+        <ToggleButton value={7} aria-label="list">
+          7 Days
+        </ToggleButton>
+        <ToggleButton value={14} aria-label="module">
+          14 Days
+        </ToggleButton>
+        <ToggleButton value={30} aria-label="module">
+          30 Days
+        </ToggleButton>
+        <ToggleButton value={90} aria-label="module">
+          90 Days
+        </ToggleButton>
+      </ToggleButtonGroup>
+    );
+  };
 
   const CoinModal = () => {
     return (
@@ -84,6 +103,7 @@ export const ModalProvider = ({ children }) => {
               Max Supply: <strong>{clickedCoin.max_supply}</strong>
             </DialogContentText>
           </DialogContent>
+          <VerticalToggleButtons />
           <DialogContent>
             {coinData.prices ? <CoinChart coinData={coinData.prices} /> : null}
           </DialogContent>
