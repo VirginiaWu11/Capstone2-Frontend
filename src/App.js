@@ -7,6 +7,7 @@ import LoadingSpinner from "./common/LoadingSpinner";
 import { useUserContext } from "./auth/UserContext";
 import { ModalProvider } from "./coins/ModalContext";
 import { ListModuleToggleButtonsProvider } from "./coins/ListModuleToggleButtonsContext";
+import { NumberOfItemsSelectProvider } from "./coins/NumberOfItemsSelectContext";
 
 export const TOKEN_STORAGE_ID = "coinWallet-token";
 
@@ -19,12 +20,14 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <ListModuleToggleButtonsProvider>
-          <ModalProvider>
-            <NavBar />
-            <Box sx={{ flexGrow: 1 }}>
-              <AllRoutes />
-            </Box>
-          </ModalProvider>
+          <NumberOfItemsSelectProvider>
+            <ModalProvider>
+              <NavBar />
+              <Box sx={{ flexGrow: 1 }}>
+                <AllRoutes />
+              </Box>
+            </ModalProvider>
+          </NumberOfItemsSelectProvider>
         </ListModuleToggleButtonsProvider>
       </BrowserRouter>
     </div>
