@@ -17,8 +17,8 @@ export default function NavBar() {
         <Button component={Link} to="/dashboard" color="inherit">
           Dashboard
         </Button>
-        <Button component={Link} to="/favorites" color="inherit">
-          Favorites
+        <Button component={Link} to="/watchlist" color="inherit">
+          Watchlist
         </Button>
         <Button component={Link} to="/profile" color="inherit">
           Profile
@@ -51,8 +51,7 @@ export default function NavBar() {
             CoinWallet
           </Button>
         </Typography>
-        {/* {currentUser ? signedInNav() : signedOutNav()} */}
-        {signedInNav()}
+        {currentUser ? signedInNav() : signedOutNav()}
       </Toolbar>
     </AppBar>
   );
