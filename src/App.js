@@ -9,6 +9,7 @@ import { ModalProvider } from "./coins/ModalContext";
 import { ListModuleToggleButtonsProvider } from "./coins/ListModuleToggleButtonsContext";
 import { NumberOfItemsSelectProvider } from "./coins/NumberOfItemsSelectContext";
 import { PaginationOutlinedProvider } from "./coins/PaginationOutlinedContext";
+import { UserWatchlistProvider } from "./watchlist/UserWatchlistContext";
 
 export const TOKEN_STORAGE_ID = "coinWallet-token";
 
@@ -20,18 +21,20 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <ListModuleToggleButtonsProvider>
-          <NumberOfItemsSelectProvider>
-            <PaginationOutlinedProvider>
-              <ModalProvider>
-                <NavBar />
-                <Box sx={{ flexGrow: 1 }}>
-                  <AllRoutes />
-                </Box>
-              </ModalProvider>
-            </PaginationOutlinedProvider>
-          </NumberOfItemsSelectProvider>
-        </ListModuleToggleButtonsProvider>
+        <UserWatchlistProvider>
+          <ListModuleToggleButtonsProvider>
+            <NumberOfItemsSelectProvider>
+              <PaginationOutlinedProvider>
+                <ModalProvider>
+                  <NavBar />
+                  <Box sx={{ flexGrow: 1 }}>
+                    <AllRoutes />
+                  </Box>
+                </ModalProvider>
+              </PaginationOutlinedProvider>
+            </NumberOfItemsSelectProvider>
+          </ListModuleToggleButtonsProvider>
+        </UserWatchlistProvider>
       </BrowserRouter>
     </div>
   );

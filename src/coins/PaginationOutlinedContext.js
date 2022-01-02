@@ -7,7 +7,7 @@ export const PaginationOutlinedContext = React.createContext();
 export const PaginationOutlinedProvider = ({ children }) => {
   const [page, setPage] = useState(1);
 
-  const PaginationOutlined = ({ itemsPerPage }) => {
+  const PaginationOutlined = ({ itemsPerPage, totalItems = 11995 }) => {
     const handleChange = (event, value) => {
       setPage(value);
     };
@@ -15,7 +15,7 @@ export const PaginationOutlinedProvider = ({ children }) => {
     return (
       <Stack spacing={2}>
         <Pagination
-          count={Math.ceil(11995 / itemsPerPage)}
+          count={Math.ceil(totalItems / itemsPerPage)}
           page={page}
           onChange={handleChange}
           variant="outlined"

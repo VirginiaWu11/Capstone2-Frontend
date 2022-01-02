@@ -47,6 +47,11 @@ class BackendApi {
     let res = await this.request(`users/${username}`, data, "patch");
     return res.user;
   }
+
+  static async get_user_watchlist() {
+    let res = await this.request(`watchlist`);
+    return res.pins;
+  }
 }
 
 export default BackendApi;

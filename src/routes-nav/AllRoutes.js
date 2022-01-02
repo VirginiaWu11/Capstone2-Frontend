@@ -2,12 +2,11 @@ import { Route, Routes } from "react-router-dom";
 import React from "react";
 import Home from "../Home";
 import CoinList from "../coins/CoinList";
-import CompanyList from "../companies/CompanyList";
 import SigninForm from "../auth/SigninForm";
 import SignupForm from "../auth/SignupForm";
 import ProfileForm from "../ProfileForm";
-import CompanyDetail from "../companies/CompanyDetail";
 import PrivateRoute from "./PrivateRoute";
+import WatchList from "../watchlist/WatchList";
 
 const AllRoutes = () => {
   return (
@@ -34,11 +33,11 @@ const AllRoutes = () => {
         }
       />
       <Route
-        path="/companies"
+        path="/watchlist"
         element={
-          // <PrivateRoute>
-          <CompanyList />
-          // </PrivateRoute>
+          <PrivateRoute>
+            <WatchList />
+          </PrivateRoute>
         }
       />
 
