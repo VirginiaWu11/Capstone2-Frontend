@@ -4,18 +4,17 @@ import CoinsCardList from "./CoinsCardList";
 import Grid from "@mui/material/Grid";
 import SearchForm from "../common/SearchForm";
 import Container from "@mui/material/Container";
-import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
 import CoinTable from "./CoinTable";
 import { useListModuleToggleButtonsContext } from "./ListModuleToggleButtonsContext";
 import { useNumberOfItemsSelectContext } from "./NumberOfItemsSelectContext";
+import { usePaginationOutlinedContext } from "./PaginationOutlinedContext";
 
 const CoinList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [coins, setCoins] = useState([]);
-  const [page, setPage] = useState(1);
   const { ListModuleToggleButtons, view } = useListModuleToggleButtonsContext();
   const { NumberOfItemsSelect, itemsPerPage } = useNumberOfItemsSelectContext();
+  const { PaginationOutlined, page } = usePaginationOutlinedContext();
 
   useEffect(() => {
     const getCoins = async (page, itemsPerPage) => {
@@ -29,24 +28,6 @@ const CoinList = () => {
   if (isLoading) {
     return <p>Loading &hellip;</p>;
   }
-
-  const PaginationOutlined = () => {
-    const handleChange = (event, value) => {
-      setPage(value);
-    };
-
-    return (
-      <Stack spacing={2}>
-        <Pagination
-          count={Math.ceil(11995 / itemsPerPage)}
-          page={page}
-          onChange={handleChange}
-          variant="outlined"
-          color="primary"
-        />
-      </Stack>
-    );
-  };
 
   return (
     <div>
@@ -65,7 +46,7 @@ const CoinList = () => {
             <CoinTable coins={coins} />
           )}
           <NumberOfItemsSelect />
-          <PaginationOutlined />
+          <PaginationOutlined itemsPerPage={itemsPerPage} />
         </Grid>
       </Container>
     </div>

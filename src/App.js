@@ -8,6 +8,7 @@ import { useUserContext } from "./auth/UserContext";
 import { ModalProvider } from "./coins/ModalContext";
 import { ListModuleToggleButtonsProvider } from "./coins/ListModuleToggleButtonsContext";
 import { NumberOfItemsSelectProvider } from "./coins/NumberOfItemsSelectContext";
+import { PaginationOutlinedProvider } from "./coins/PaginationOutlinedContext";
 
 export const TOKEN_STORAGE_ID = "coinWallet-token";
 
@@ -21,12 +22,14 @@ function App() {
       <BrowserRouter>
         <ListModuleToggleButtonsProvider>
           <NumberOfItemsSelectProvider>
-            <ModalProvider>
-              <NavBar />
-              <Box sx={{ flexGrow: 1 }}>
-                <AllRoutes />
-              </Box>
-            </ModalProvider>
+            <PaginationOutlinedProvider>
+              <ModalProvider>
+                <NavBar />
+                <Box sx={{ flexGrow: 1 }}>
+                  <AllRoutes />
+                </Box>
+              </ModalProvider>
+            </PaginationOutlinedProvider>
           </NumberOfItemsSelectProvider>
         </ListModuleToggleButtonsProvider>
       </BrowserRouter>
