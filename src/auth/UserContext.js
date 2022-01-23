@@ -1,4 +1,10 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, {
+  useState,
+  useContext,
+  useEffect,
+  useCallback,
+  useMemo,
+} from "react";
 import BackendApi from "../api";
 import useLocalStorage from "../hooks/useLocalStorage";
 import jwt from "jsonwebtoken";
@@ -40,34 +46,40 @@ export const UserProvider = ({ children }) => {
     [token, setCurrentUser]
   );
 
-  async function signup(signupData) {
-    try {
-      let token = await BackendApi.register(signupData);
-      setToken(token);
-      return { success: true };
-    } catch (errors) {
-      console.error("signup failed", errors);
-      return { success: false, errors };
-    }
-  }
+  const signup = useCallback(
+    async (signupData) => {
+      try {
+        let token = await BackendApi.register(signupData);
+        setToken(token);
+        return { success: true };
+      } catch (errors) {
+        console.error("signup failed", errors);
+        return { success: false, errors };
+      }
+    },
+    [setToken]
+  );
 
-  async function signin(loginData) {
-    try {
-      let token = await BackendApi.signin(loginData);
-      setToken(token);
-      return { success: true };
-    } catch (errors) {
-      console.error("login failed", errors);
-      return { success: false, errors };
-    }
-  }
+  const signin = useCallback(
+    async (loginData) => {
+      try {
+        let token = await BackendApi.signin(loginData);
+        setToken(token);
+        return { success: true };
+      } catch (errors) {
+        console.error("login failed", errors);
+        return { success: false, errors };
+      }
+    },
+    [setToken]
+  );
 
-  function signout() {
+  const signout = useCallback(() => {
     setCurrentUser(null);
     setToken(null);
-  }
+  }, [setToken]);
 
-  const updateProfile = async (username, newUserData) => {
+  const updateProfile = useCallback(async (username, newUserData) => {
     try {
       let updatedUser = await BackendApi.updateProfile(username, newUserData);
       console.debug("appjs", { updatedUser });
@@ -75,20 +87,34 @@ export const UserProvider = ({ children }) => {
     } catch (errors) {
       return { success: false, errors };
     }
-  };
+  }, []);
 
-  const value = {
-    currentUser,
-    setCurrentUser,
-    token,
-    setToken,
-    signup,
-    signin,
-    signout,
-    updateProfile,
-    infoLoaded,
-    setInfoLoaded,
-  };
+  const value = useMemo(
+    () => ({
+      currentUser,
+      setCurrentUser,
+      token,
+      setToken,
+      signup,
+      signin,
+      signout,
+      updateProfile,
+      infoLoaded,
+      setInfoLoaded,
+    }),
+    [
+      currentUser,
+      setCurrentUser,
+      token,
+      setToken,
+      signup,
+      signin,
+      signout,
+      updateProfile,
+      infoLoaded,
+      setInfoLoaded,
+    ]
+  );
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
