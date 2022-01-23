@@ -3,7 +3,7 @@ import CoinGeckoApi from "../CoinGeckoApi";
 import BackendApi from "../api";
 import CoinsCardList from "../coins/CoinsCardList";
 import Grid from "@mui/material/Grid";
-import SearchForm from "../common/SearchForm";
+// import SearchForm from "../common/SearchForm";
 import Container from "@mui/material/Container";
 import CoinTable from "../coins/CoinTable";
 import { useListModuleToggleButtonsContext } from "../coins/ListModuleToggleButtonsContext";

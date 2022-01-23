@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import CoinGeckoApi from "../CoinGeckoApi";
 import CoinsCardList from "./CoinsCardList";
 import Grid from "@mui/material/Grid";
-import SearchForm from "../common/SearchForm";
+// import SearchForm from "../common/SearchForm";
 import Container from "@mui/material/Container";
 import CoinTable from "./CoinTable";
 import { useListModuleToggleButtonsContext } from "./ListModuleToggleButtonsContext";
