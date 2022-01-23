@@ -26,7 +26,7 @@ const WatchList = () => {
         itemsPerPage,
         watchlistIds
       );
-      console.debug({ watchlistIds });
+      console.debug({ watchlistIds, resp });
       setCoins(resp);
     };
     // getUserCoins();

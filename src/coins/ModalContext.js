@@ -9,6 +9,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import BackendApi from "../api";
 
 export const ModalContext = React.createContext();
 
@@ -21,6 +22,11 @@ export const ModalProvider = ({ children }) => {
 
   const handleOpen = () => {
     setOpen(true);
+  };
+
+  const handlePin = () => {
+    BackendApi.pin(clickedCoin.id);
+    handleClose();
   };
   const handleClose = () => setOpen(false);
 
@@ -109,7 +115,7 @@ export const ModalProvider = ({ children }) => {
           </DialogContent>
 
           <DialogActions>
-            <Button onClick={handleClose}>Pin to Watchlist</Button>
+            <Button onClick={handlePin}>Pin to Watchlist</Button>
             <Button onClick={handleClose} autoFocus>
               Add to Dashboard
             </Button>

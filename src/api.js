@@ -52,6 +52,10 @@ class BackendApi {
     let res = await this.request(`watchlist`);
     return res.pins;
   }
+  static async pin(coin_gecko_id) {
+    await this.request(`users/pin/${coin_gecko_id}`, {}, "post");
+    return;
+  }
 }
 
 export default BackendApi;
