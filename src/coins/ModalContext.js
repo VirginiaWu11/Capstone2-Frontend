@@ -1,4 +1,11 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, {
+  useState,
+  useContext,
+  useEffect,
+  useCallback,
+  useMemo,
+  memo,
+} from "react";
 import { CoinChart } from "./CoinChart";
 import CoinGeckoApi from "../CoinGeckoApi";
 import Button from "@mui/material/Button";
@@ -20,15 +27,16 @@ export const ModalProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [view, setView] = useState(7);
 
-  const handleOpen = () => {
+  const handleOpen = useCallback(() => {
     setOpen(true);
-  };
+  }, []);
 
-  const handlePin = () => {
+  const handleClose = useCallback(() => setOpen(false), []);
+
+  const handlePin = useCallback(() => {
     BackendApi.pin(clickedCoin.id);
     handleClose();
-  };
-  const handleClose = () => setOpen(false);
+  }, [clickedCoin.id, handleClose]);
 
   useEffect(() => {
     const getCoinMarketData = async (id, days) => {
@@ -72,7 +80,7 @@ export const ModalProvider = ({ children }) => {
     );
   };
 
-  const CoinModal = () => {
+  const CoinModal = memo(() => {
     return (
       <div>
         <Dialog
@@ -123,16 +131,28 @@ export const ModalProvider = ({ children }) => {
         </Dialog>
       </div>
     );
-  };
-  const value = {
-    CoinModal,
-    open,
-    setOpen,
-    handleOpen,
-    handleClose,
-    clickedCoin,
-    setClickedCoin,
-  };
+  });
+
+  const value = useMemo(
+    () => ({
+      CoinModal,
+      open,
+      setOpen,
+      handleOpen,
+      handleClose,
+      clickedCoin,
+      setClickedCoin,
+    }),
+    [
+      CoinModal,
+      open,
+      setOpen,
+      handleOpen,
+      handleClose,
+      clickedCoin,
+      setClickedCoin,
+    ]
+  );
 
   return (
     <ModalContext.Provider value={value}>{children}</ModalContext.Provider>
