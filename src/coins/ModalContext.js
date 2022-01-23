@@ -42,7 +42,7 @@ export const ModalProvider = ({ children }) => {
   //   if (isLoading) {
   //     return <p>Loading &hellip;</p>;
   //   }
-  console.debug({ clickedCoin, isLoading }, coinData.prices);
+  console.debug("Modal Context:", { clickedCoin, isLoading }, coinData.prices);
 
   const VerticalToggleButtons = () => {
     const handleChange = (event, nextView) => {
