@@ -14,6 +14,7 @@ import { UserWatchlistProvider } from "./watchlist/UserWatchlistContext";
 export const TOKEN_STORAGE_ID = "coinWallet-token";
 
 function App() {
+  console.debug("App rendered");
   const { infoLoaded } = useUserContext();
 
   if (!infoLoaded) return <LoadingSpinner />;

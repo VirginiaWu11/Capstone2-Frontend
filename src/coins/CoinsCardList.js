@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import { useModalContext } from "./ModalContext";
 
 const CoinsCardList = memo(({ coins }) => {
+  console.debug("CoinsCardList rendered");
   const { CoinModal, handleOpen, clickedCoin, setClickedCoin } =
     useModalContext();
   return (

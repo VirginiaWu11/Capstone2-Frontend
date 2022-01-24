@@ -6,7 +6,8 @@ import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import { useUserContext } from "../auth/UserContext";
 
-export default function NavBar() {
+const NavBar = () => {
+  console.debug("NavBar rendered");
   const { currentUser, signout } = useUserContext();
   const signedInNav = () => {
     return (
@@ -55,4 +56,6 @@ export default function NavBar() {
       </Toolbar>
     </AppBar>
   );
-}
+};
+
+export default NavBar;
