@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useMemo, memo } from "react";
 
 import ViewListIcon from "@mui/icons-material/ViewList";
 import ViewModuleIcon from "@mui/icons-material/ViewModule";
@@ -10,7 +10,7 @@ export const ListModuleToggleButtonsContext = React.createContext();
 export const ListModuleToggleButtonsProvider = ({ children }) => {
   const [view, setView] = useState("module");
 
-  const ListModuleToggleButtons = () => {
+  const ListModuleToggleButtons = memo(() => {
     const handleChange = (event, nextView) => {
       setView(nextView);
     };
@@ -30,12 +30,15 @@ export const ListModuleToggleButtonsProvider = ({ children }) => {
         </ToggleButton>
       </ToggleButtonGroup>
     );
-  };
-  const value = {
-    ListModuleToggleButtons,
-    view,
-    setView,
-  };
+  });
+  const value = useMemo(
+    () => ({
+      ListModuleToggleButtons,
+      view,
+      setView,
+    }),
+    [ListModuleToggleButtons, view]
+  );
   return (
     <ListModuleToggleButtonsContext.Provider value={value}>
       {children}
