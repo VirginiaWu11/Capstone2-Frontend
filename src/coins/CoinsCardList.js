@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import Grid from "@mui/material/Grid";
 import CoinCard from "./CoinCard";
 import { CardActionArea } from "@mui/material";
 import Button from "@mui/material/Button";
 import { useModalContext } from "./ModalContext";
 
-const CoinsCardList = ({ coins }) => {
+const CoinsCardList = memo(({ coins }) => {
   const { CoinModal, handleOpen, clickedCoin, setClickedCoin } =
     useModalContext();
   return (
@@ -34,6 +34,6 @@ const CoinsCardList = ({ coins }) => {
       </Grid>
     </div>
   );
-};
+});
 
 export default CoinsCardList;

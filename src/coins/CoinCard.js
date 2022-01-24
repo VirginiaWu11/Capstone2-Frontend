@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import { Grid } from "@mui/material";
 import CardMedia from "@mui/material/CardMedia";
 
-const CoinCard = ({ coin }) => {
+const CoinCard = memo(({ coin }) => {
   return (
     <Card
       sx={{ minWidth: 275, display: "flex", justifyContent: "space-between" }}
@@ -52,5 +52,5 @@ const CoinCard = ({ coin }) => {
       )}
     </Card>
   );
-};
+});
 export default CoinCard;

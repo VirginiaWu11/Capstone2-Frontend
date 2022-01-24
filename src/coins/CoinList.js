@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import CoinGeckoApi from "../CoinGeckoApi";
 import CoinsCardList from "./CoinsCardList";
 import Grid from "@mui/material/Grid";
@@ -9,7 +9,7 @@ import { useListModuleToggleButtonsContext } from "./ListModuleToggleButtonsCont
 import { useNumberOfItemsSelectContext } from "./NumberOfItemsSelectContext";
 import { usePaginationOutlinedContext } from "./PaginationOutlinedContext";
 
-const CoinList = () => {
+const CoinList = memo(() => {
   const [isLoading, setIsLoading] = useState(true);
   const [coins, setCoins] = useState([]);
   const { ListModuleToggleButtons, view } = useListModuleToggleButtonsContext();
@@ -51,6 +51,6 @@ const CoinList = () => {
       </Container>
     </div>
   );
-};
+});
 
 export default CoinList;
