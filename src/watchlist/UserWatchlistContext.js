@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useMemo } from "react";
 import BackendApi from "../api";
 
 export const UserWatchlistContext = React.createContext();
@@ -25,7 +25,10 @@ export const UserWatchlistProvider = ({ children }) => {
     },
     [setWatchlistIds]
   );
-  const value = { watchlistIds, infoLoaded };
+  const value = useMemo(
+    () => ({ watchlistIds, infoLoaded }),
+    [infoLoaded, watchlistIds]
+  );
 
   return (
     <UserWatchlistContext.Provider value={value}>
