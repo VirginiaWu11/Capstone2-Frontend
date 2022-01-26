@@ -43,8 +43,10 @@ export const ModalProvider = ({ children }) => {
       const resp = await CoinGeckoApi.getCoinMarketChart(id, days);
       setCoinData(resp);
     };
-    getCoinMarketData(clickedCoin.id, view);
-    setIsLoading(false);
+    if (clickedCoin.id) {
+      getCoinMarketData(clickedCoin.id, view);
+      setIsLoading(false);
+    }
   }, [clickedCoin.id, view]);
 
   //   if (isLoading) {
