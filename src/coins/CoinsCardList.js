@@ -19,7 +19,7 @@ const CoinsCardList = memo(({ coins }) => {
         p={2}
       >
         {coins.map((coin) => (
-          <Grid item xs={3} sm={3} md={3} lg={3}>
+          <Grid key={coin.id} item xs={3} sm={3} md={3} lg={3}>
             <CardActionArea
               component={Button}
               onClick={() => {
