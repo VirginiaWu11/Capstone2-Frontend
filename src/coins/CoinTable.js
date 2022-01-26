@@ -106,10 +106,10 @@ const CoinTable = ({ coins }) => {
             {coins.map((row) => {
               return (
                 <TableRow
+                  key={row.id}
                   hover
                   role="checkbox"
                   tabIndex={-1}
-                  key={row.code}
                   onClick={() => {
                     handleOpen();
                     setClickedCoin(row);
