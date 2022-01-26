@@ -94,27 +94,36 @@ export const ModalProvider = ({ children }) => {
           <DialogTitle id="alert-dialog-title">{clickedCoin.name}</DialogTitle>
           <DialogContent>
             <DialogContentText id="dialog-description">
-              Market Cap: <strong>{clickedCoin.market_cap}</strong>
+              Market Cap:{" "}
+              <strong>{clickedCoin.market_cap?.toLocaleString()}</strong>
             </DialogContentText>
             <DialogContentText id="dialog-description">
-              Current Price: <strong>{clickedCoin.current_price}</strong>
+              Current Price:{" "}
+              <strong>{clickedCoin.current_price?.toLocaleString()}</strong>
             </DialogContentText>
             <DialogContentText id="dialog-description">
-              24Hr Trading Volume: <strong>{clickedCoin.total_volume}</strong>
+              24Hr Trading Volume:{" "}
+              <strong>{clickedCoin.total_volume?.toLocaleString()}</strong>
             </DialogContentText>
             <DialogContentText id="dialog-description">
               Fully Diluted Valuation:{" "}
-              <strong>{clickedCoin.fully_diluted_valuation}</strong>
+              <strong>
+                {clickedCoin.fully_diluted_valuation?.toLocaleString()}
+              </strong>
             </DialogContentText>
             <DialogContentText id="dialog-description">
               Circulating supply:{" "}
-              <strong>{clickedCoin.circulating_supply}</strong>
+              <strong>
+                {clickedCoin.circulating_supply?.toLocaleString()}
+              </strong>
             </DialogContentText>
             <DialogContentText id="dialog-description">
-              Total Supply: <strong>{clickedCoin.total_supply}</strong>
+              Total Supply:{" "}
+              <strong>{clickedCoin.total_supply?.toLocaleString()}</strong>
             </DialogContentText>
             <DialogContentText id="dialog-description">
-              Max Supply: <strong>{clickedCoin.max_supply}</strong>
+              Max Supply:{" "}
+              <strong>{clickedCoin.max_supply?.toLocaleString()}</strong>
             </DialogContentText>
           </DialogContent>
           <VerticalToggleButtons />
