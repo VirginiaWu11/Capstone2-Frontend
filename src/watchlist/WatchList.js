@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import CoinGeckoApi from "../CoinGeckoApi";
-import BackendApi from "../api";
 import CoinsCardList from "../coins/CoinsCardList";
 import Grid from "@mui/material/Grid";
 // import SearchForm from "../common/SearchForm";

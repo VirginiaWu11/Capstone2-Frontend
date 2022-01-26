@@ -1,10 +1,8 @@
-import React, { useState, useEffect, memo } from "react";
+import React, { memo } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import { Grid } from "@mui/material";
 import CardMedia from "@mui/material/CardMedia";
 
 const CoinCard = memo(({ coin }) => {

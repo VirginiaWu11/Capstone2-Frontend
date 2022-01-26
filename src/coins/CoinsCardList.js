@@ -1,4 +1,4 @@
-import React, { useState, memo } from "react";
+import React, { memo } from "react";
 import Grid from "@mui/material/Grid";
 import CoinCard from "./CoinCard";
 import { CardActionArea } from "@mui/material";
