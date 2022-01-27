@@ -7,7 +7,7 @@ export const PaginationOutlinedContext = React.createContext();
 export const PaginationOutlinedProvider = ({ children }) => {
   const [page, setPage] = useState(1);
 
-  const PaginationOutlined = ({ itemsPerPage, totalItems = 11995 }) => {
+  const PaginationOutlined = ({ itemsPerPage, totalItems = 0 }) => {
     const handleChange = (event, value) => {
       setPage(value);
     };
