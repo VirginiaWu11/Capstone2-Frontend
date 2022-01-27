@@ -1,16 +1,16 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, memo, useCallback, useMemo } from "react";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 
 export const PaginationOutlinedContext = React.createContext();
 
-export const PaginationOutlinedProvider = ({ children }) => {
+export const PaginationOutlinedProvider = memo(({ children }) => {
   const [page, setPage] = useState(1);
 
-  const PaginationOutlined = ({ itemsPerPage, totalItems = 0 }) => {
-    const handleChange = (event, value) => {
+  const PaginationOutlined = memo(({ itemsPerPage, totalItems = 0 }) => {
+    const handleChange = useCallback((event, value) => {
       setPage(value);
-    };
+    }, []);
 
     return (
       <Stack spacing={2}>
@@ -23,17 +23,21 @@ export const PaginationOutlinedProvider = ({ children }) => {
         />
       </Stack>
     );
-  };
-  const value = {
-    PaginationOutlined,
-    page,
-  };
+  });
+  const value = useMemo(
+    () => ({
+      PaginationOutlined,
+      page,
+      setPage,
+    }),
+    [PaginationOutlined, page]
+  );
   return (
     <PaginationOutlinedContext.Provider value={value}>
       {children}
     </PaginationOutlinedContext.Provider>
   );
-};
+});
 
 export const usePaginationOutlinedContext = () =>
   useContext(PaginationOutlinedContext);
