@@ -18,7 +18,7 @@ const CoinList = memo(() => {
   const [coins, setCoins] = useState([]);
   const { ListModuleToggleButtons, view } = useListModuleToggleButtonsContext();
   const { NumberOfItemsSelect, itemsPerPage } = useNumberOfItemsSelectContext();
-  const { PaginationOutlined, page } = usePaginationOutlinedContext();
+  const { PaginationOutlined, page, setPage } = usePaginationOutlinedContext();
   const { watchlistIds } = useUserWatchlistContext();
   const [coinsToggleView, setCoinsToggleView] = useState("allcoins");
 
@@ -27,29 +27,40 @@ const CoinList = memo(() => {
     setCoins(resp);
   }, []);
 
-  const getCoinInfoCoinGecko = useCallback(async (page, itemsPerPage) => {
-    const resp = await CoinGeckoApi.getCoins(page, itemsPerPage, watchlistIds);
-    setCoins(resp);
-  }, []);
+  const getCoinInfoCoinGecko = useCallback(
+    async (page, itemsPerPage, watchlistIds) => {
+      const resp = await CoinGeckoApi.getCoins(
+        page,
+        itemsPerPage,
+        watchlistIds
+      );
+      setCoins(resp);
+    },
+    []
+  );
+  const handleChange = useCallback(
+    (event, nextView) => {
+      setPage(1);
+      if (nextView === "allcoins") {
+        getCoins(page, itemsPerPage);
+      } else {
+        getCoinInfoCoinGecko(page, itemsPerPage, watchlistIds);
+      }
+      setCoinsToggleView(nextView);
+    },
+    [getCoinInfoCoinGecko, getCoins, itemsPerPage, page, setPage, watchlistIds]
+  );
 
   useEffect(() => {
-    getCoins(page, itemsPerPage);
+    handleChange(undefined, coinsToggleView);
+    // getCoins(page, itemsPerPage);
     setIsLoading(false);
-  }, [page, itemsPerPage, getCoins]);
+  }, [coinsToggleView, handleChange]);
   if (isLoading) {
     return <p>Loading &hellip;</p>;
   }
 
   const FilterCoinsToggleButtons = memo(() => {
-    const handleChange = (event, nextView) => {
-      if (nextView === "allcoins") {
-        getCoins(page, itemsPerPage);
-      } else {
-        getCoinInfoCoinGecko(page, itemsPerPage);
-      }
-      setCoinsToggleView(nextView);
-    };
-
     return (
       <ToggleButtonGroup
         value={coinsToggleView}
