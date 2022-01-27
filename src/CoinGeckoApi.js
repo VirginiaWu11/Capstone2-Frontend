@@ -12,7 +12,7 @@ class CoinGeckoApi {
     try {
       return (await axios({ url, method, data, params })).data;
     } catch (err) {
-      console.error("API Error:", err.response);
+      console.error("API Error:", err);
       let message = err.response.data.error.message;
       throw Array.isArray(message) ? message : [message];
     }
