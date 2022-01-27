@@ -23,7 +23,7 @@ export const UserWatchlistProvider = ({ children }) => {
       setInfoLoaded(false);
       getUserWatchlist();
     },
-    [setWatchlistIds]
+    [setWatchlistIds] //error requesting watchlistIds because I am console.debugging
   );
   const value = useMemo(
     () => ({ watchlistIds, infoLoaded }),
