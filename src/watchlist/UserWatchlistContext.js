@@ -9,8 +9,6 @@ export const UserWatchlistProvider = ({ children }) => {
 
   useEffect(
     function loadUserWatchlist() {
-      console.debug("App useEffect loadUserWatchlist", "ids=", watchlistIds);
-
       async function getUserWatchlist() {
         try {
           let idsResp = await BackendApi.get_user_watchlist();
@@ -23,8 +21,11 @@ export const UserWatchlistProvider = ({ children }) => {
       setInfoLoaded(false);
       getUserWatchlist();
     },
-    [setWatchlistIds] //error requesting watchlistIds because I am console.debugging
+    [setWatchlistIds]
   );
+
+  console.debug("App useEffect loadUserWatchlist", "ids=", watchlistIds);
+
   const value = useMemo(
     () => ({ watchlistIds, infoLoaded }),
     [infoLoaded, watchlistIds]
