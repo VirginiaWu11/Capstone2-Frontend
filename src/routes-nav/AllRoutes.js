@@ -6,7 +6,6 @@ import SigninForm from "../auth/SigninForm";
 import SignupForm from "../auth/SignupForm";
 import ProfileForm from "../ProfileForm";
 import PrivateRoute from "./PrivateRoute";
-import WatchList from "../watchlist/WatchList";
 
 const AllRoutes = () => {
   return (
@@ -29,14 +28,6 @@ const AllRoutes = () => {
         element={
           <PrivateRoute>
             <CoinList />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/watchlist"
-        element={
-          <PrivateRoute>
-            <WatchList />
           </PrivateRoute>
         }
       />
