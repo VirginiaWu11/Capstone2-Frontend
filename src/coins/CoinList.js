@@ -109,13 +109,15 @@ const CoinList = memo(() => {
           ) : (
             <CoinTable coins={coins} />
           )}
-          <NumberOfItemsSelect />
-          <PaginationOutlined
-            itemsPerPage={itemsPerPage}
-            totalItems={
-              coinsToggleView === "watchlist" ? watchlistIds?.length : 11995
-            }
-          />
+          <Grid container spacing={1} justifyContent="center" pt={2}>
+            <NumberOfItemsSelect />
+            <PaginationOutlined
+              itemsPerPage={itemsPerPage}
+              totalItems={
+                coinsToggleView === "watchlist" ? watchlistIds?.length : 11995
+              }
+            />
+          </Grid>
         </Grid>
       </Container>
     </div>
