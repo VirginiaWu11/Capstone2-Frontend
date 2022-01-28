@@ -27,7 +27,7 @@ export const ModalProvider = ({ children }) => {
   const [coinData, setCoinData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [view, setView] = useState(7);
-  const { watchlistIds } = useUserWatchlistContext();
+  const { watchlistIds, setWatchlistIds } = useUserWatchlistContext();
 
   const handleOpen = useCallback(() => {
     setOpen(true);
@@ -37,13 +37,17 @@ export const ModalProvider = ({ children }) => {
 
   const handlePin = useCallback(() => {
     BackendApi.pin(clickedCoin.id);
+    setWatchlistIds([...watchlistIds, clickedCoin.id]);
     handleClose();
-  }, [clickedCoin.id, handleClose]);
+  }, [clickedCoin.id, handleClose, setWatchlistIds, watchlistIds]);
 
   const handleUnpin = useCallback(() => {
     BackendApi.unpin(clickedCoin.id);
+    setWatchlistIds(
+      watchlistIds.filter((watchlistId) => watchlistId !== clickedCoin.id)
+    );
     handleClose();
-  }, [clickedCoin.id, handleClose]);
+  }, [clickedCoin.id, handleClose, setWatchlistIds, watchlistIds]);
 
   useEffect(() => {
     const getCoinMarketData = async (id, days) => {
@@ -62,9 +66,10 @@ export const ModalProvider = ({ children }) => {
     const handleChange = (event, nextView) => {
       setView(nextView);
     };
-    if (isLoading) {
+    if (isLoading || !clickedCoin) {
       return <p>Loading &hellip;</p>;
     }
+
     return (
       <ToggleButtonGroup
         value={view}

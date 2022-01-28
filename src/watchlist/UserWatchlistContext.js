@@ -27,8 +27,8 @@ export const UserWatchlistProvider = ({ children }) => {
   console.debug("App useEffect loadUserWatchlist", "ids=", watchlistIds);
 
   const value = useMemo(
-    () => ({ watchlistIds, infoLoaded }),
-    [infoLoaded, watchlistIds]
+    () => ({ watchlistIds, infoLoaded, setWatchlistIds }),
+    [infoLoaded, watchlistIds, setWatchlistIds]
   );
 
   return (
