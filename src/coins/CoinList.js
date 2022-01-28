@@ -96,28 +96,25 @@ const CoinList = memo(() => {
           <ListModuleToggleButtons />
           <FilterCoinsToggleButtons />
         </Box>
-
-        <Grid container spacing={1} justifyContent="center" pt={2}>
-          {view === "module" ? (
-            coins.length ? (
-              <CoinsCardList coins={coins} />
-            ) : (
-              <Grid item xs={3}>
-                <p>No coins found</p>
-              </Grid>
-            )
+        {view === "module" ? (
+          coins.length ? (
+            <CoinsCardList coins={coins} />
           ) : (
-            <CoinTable coins={coins} />
-          )}
-          <Grid container spacing={1} justifyContent="center" pt={2}>
-            <NumberOfItemsSelect />
-            <PaginationOutlined
-              itemsPerPage={itemsPerPage}
-              totalItems={
-                coinsToggleView === "watchlist" ? watchlistIds?.length : 11995
-              }
-            />
-          </Grid>
+            <Grid item xs={3}>
+              <p>No coins found</p>
+            </Grid>
+          )
+        ) : (
+          <CoinTable coins={coins} />
+        )}
+        <Grid container spacing={1} justifyContent="center" pt={2}>
+          <NumberOfItemsSelect />
+          <PaginationOutlined
+            itemsPerPage={itemsPerPage}
+            totalItems={
+              coinsToggleView === "watchlist" ? watchlistIds?.length : 11995
+            }
+          />
         </Grid>
       </Container>
     </div>
