@@ -11,7 +11,6 @@ export const PaginationOutlinedProvider = memo(({ children }) => {
     const handleChange = useCallback((event, value) => {
       setPage(value);
     }, []);
-
     return (
       <Stack spacing={2}>
         <Pagination
@@ -24,6 +23,8 @@ export const PaginationOutlinedProvider = memo(({ children }) => {
       </Stack>
     );
   });
+  console.debug("page in PaginationOutlinedContext:", page);
+
   const value = useMemo(
     () => ({
       PaginationOutlined,

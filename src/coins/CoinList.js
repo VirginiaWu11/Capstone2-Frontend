@@ -42,19 +42,31 @@ const CoinList = memo(() => {
     (event, nextView) => {
       setPage(1);
       if (nextView === "allcoins") {
-        getCoins(page, itemsPerPage);
+        getCoins(1, itemsPerPage);
       } else {
-        getCoinInfoCoinGecko(page, itemsPerPage, watchlistIds);
+        getCoinInfoCoinGecko(1, itemsPerPage, watchlistIds);
       }
       setCoinsToggleView(nextView);
     },
-    [getCoinInfoCoinGecko, getCoins, itemsPerPage, page, setPage, watchlistIds]
+    [getCoinInfoCoinGecko, getCoins, itemsPerPage, watchlistIds, setPage]
   );
 
   useEffect(() => {
-    handleChange(undefined, coinsToggleView);
+    if (coinsToggleView === "allcoins") {
+      getCoins(page, itemsPerPage);
+    } else {
+      getCoinInfoCoinGecko(page, itemsPerPage, watchlistIds);
+    }
     setIsLoading(false);
-  }, [coinsToggleView, handleChange]);
+  }, [
+    coinsToggleView,
+    handleChange,
+    page,
+    getCoinInfoCoinGecko,
+    getCoins,
+    itemsPerPage,
+    watchlistIds,
+  ]);
   if (isLoading) {
     return <p>Loading &hellip;</p>;
   }
