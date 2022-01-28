@@ -20,7 +20,7 @@ export const ListModuleToggleButtonsProvider = ({ children }) => {
         value={view}
         exclusive
         onChange={handleChange}
-        sx={{ ml: 1, mt: 2 }}
+        sx={{ ml: 2, mt: 2 }}
       >
         <ToggleButton value="list" aria-label="list">
           <ViewListIcon />
