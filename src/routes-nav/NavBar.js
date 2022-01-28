@@ -5,6 +5,8 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import { useUserContext } from "../auth/UserContext";
+import SearchBar from "./SearchBar";
+import Box from "@mui/material/Box";
 
 const NavBar = () => {
   console.debug("NavBar rendered");
@@ -12,6 +14,9 @@ const NavBar = () => {
   const signedInNav = () => {
     return (
       <>
+        <Box sx={{ m: "auto" }}>
+          <SearchBar />
+        </Box>
         <Button component={Link} to="/coins" color="inherit">
           Coins
         </Button>
@@ -44,7 +49,7 @@ const NavBar = () => {
   return (
     <AppBar position="sticky">
       <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Typography variant="h6" component="div" /*  sx={{ flexGrow: 1 }} */>
           <Button size="large" component={Link} to="/" color="inherit">
             CoinWallet
           </Button>
