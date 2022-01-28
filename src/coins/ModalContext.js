@@ -17,6 +17,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import BackendApi from "../api";
+import { useUserWatchlistContext } from "../watchlist/UserWatchlistContext";
 
 export const ModalContext = React.createContext();
 
@@ -26,6 +27,7 @@ export const ModalProvider = ({ children }) => {
   const [coinData, setCoinData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [view, setView] = useState(7);
+  const { watchlistIds } = useUserWatchlistContext();
 
   const handleOpen = useCallback(() => {
     setOpen(true);
@@ -35,6 +37,11 @@ export const ModalProvider = ({ children }) => {
 
   const handlePin = useCallback(() => {
     BackendApi.pin(clickedCoin.id);
+    handleClose();
+  }, [clickedCoin.id, handleClose]);
+
+  const handleUnpin = useCallback(() => {
+    BackendApi.unpin(clickedCoin.id);
     handleClose();
   }, [clickedCoin.id, handleClose]);
 
@@ -49,16 +56,15 @@ export const ModalProvider = ({ children }) => {
     }
   }, [clickedCoin.id, view]);
 
-  //   if (isLoading) {
-  //     return <p>Loading &hellip;</p>;
-  //   }
   console.debug("Modal Context:", { clickedCoin, isLoading }, { coinData });
 
   const VerticalToggleButtons = () => {
     const handleChange = (event, nextView) => {
       setView(nextView);
     };
-
+    if (isLoading) {
+      return <p>Loading &hellip;</p>;
+    }
     return (
       <ToggleButtonGroup
         value={view}
@@ -134,7 +140,11 @@ export const ModalProvider = ({ children }) => {
           </DialogContent>
 
           <DialogActions>
-            <Button onClick={handlePin}>Pin to Watchlist</Button>
+            {watchlistIds.includes(clickedCoin.id) ? (
+              <Button onClick={handleUnpin}>Unpin from Watchlist</Button>
+            ) : (
+              <Button onClick={handlePin}>Pin to Watchlist</Button>
+            )}
             <Button onClick={handleClose} autoFocus>
               Add to Dashboard
             </Button>

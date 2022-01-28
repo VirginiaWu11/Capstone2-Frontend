@@ -56,6 +56,10 @@ class BackendApi {
     await this.request(`users/pin/${coin_gecko_id}`, {}, "post");
     return;
   }
+  static async unpin(coin_gecko_id) {
+    await this.request(`users/unpin/${coin_gecko_id}`, {}, "post");
+    return;
+  }
 }
 
 export default BackendApi;

@@ -53,7 +53,6 @@ const CoinList = memo(() => {
 
   useEffect(() => {
     handleChange(undefined, coinsToggleView);
-    // getCoins(page, itemsPerPage);
     setIsLoading(false);
   }, [coinsToggleView, handleChange]);
   if (isLoading) {
