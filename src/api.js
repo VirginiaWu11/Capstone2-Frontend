@@ -60,6 +60,10 @@ class BackendApi {
     await this.request(`users/unpin/${coin_gecko_id}`, {}, "post");
     return;
   }
+  static async search(searchTerm) {
+    let res = await this.request(`coins/search`, { search: searchTerm }, "get");
+    return res.coins;
+  }
 }
 
 export default BackendApi;

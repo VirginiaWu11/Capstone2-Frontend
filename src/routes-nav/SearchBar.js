@@ -1,8 +1,10 @@
-import * as React from "react";
+import React, { useMemo } from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useModalContext } from "../coins/ModalContext";
+import debounce from "lodash.debounce";
+import BackendApi from "../api";
 
 function sleep(delay = 0) {
   return new Promise((resolve) => {
@@ -14,28 +16,7 @@ export default function SearchBar() {
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
   const loading = open && options.length === 0;
-  const { CoinModal, handleOpen, clickedCoin, setClickedCoin } =
-    useModalContext();
-
-  React.useEffect(() => {
-    let active = true;
-
-    if (!loading) {
-      return undefined;
-    }
-
-    (async () => {
-      await sleep(1e3); // For demo purposes.
-
-      if (active) {
-        setOptions([...topCoins]);
-      }
-    })();
-
-    return () => {
-      active = false;
-    };
-  }, [loading]);
+  const { CoinModal, handleOpen, setClickedCoin } = useModalContext();
 
   React.useEffect(() => {
     if (!open) {
@@ -50,10 +31,23 @@ export default function SearchBar() {
     }
   };
 
+  const debouncedChangeHandler = useMemo(() => {
+    const changeHandler = async (event) => {
+      if (event) {
+        searchedCoins = await BackendApi.search(
+          event.target.value.toLowerCase()
+        );
+        setOptions([...searchedCoins]);
+      }
+    };
+    return debounce(changeHandler, 300);
+  }, []);
+
   return (
     <>
       <Autocomplete
         onChange={onChange}
+        size="small"
         id="asynchronous-demo"
         sx={{ width: 400, m: "auto", backgroundColor: "white" }}
         open={open}
@@ -71,6 +65,7 @@ export default function SearchBar() {
           <TextField
             {...params}
             label="Search All Coins"
+            onChange={debouncedChangeHandler}
             InputProps={{
               ...params.InputProps,
               endAdornment: (
@@ -90,8 +85,4 @@ export default function SearchBar() {
   );
 }
 
-const topCoins = [
-  { name: "Bitcoin", symbol: "BTC", coinGeckoId: "bitcoin" },
-  { name: "Ethereum", symbol: "", coinGeckoId: "ethereum" },
-  { name: "Tether", symbol: "", coinGeckoId: "tetherf" },
-];
+let searchedCoins = [];
