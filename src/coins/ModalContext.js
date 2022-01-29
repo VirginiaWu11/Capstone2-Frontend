@@ -28,6 +28,7 @@ export const ModalProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [view, setView] = useState(7);
   const { watchlistIds, setWatchlistIds } = useUserWatchlistContext();
+  console.debug("setWatchlistIds", watchlistIds);
 
   const handleOpen = useCallback(() => {
     setOpen(true);

@@ -29,12 +29,14 @@ const CoinList = memo(() => {
 
   const getCoinInfoCoinGecko = useCallback(
     async (page, itemsPerPage, watchlistIds) => {
-      const resp = await CoinGeckoApi.getCoins(
-        page,
-        itemsPerPage,
-        watchlistIds
+      const resp = await CoinGeckoApi.getCoins(1, 1, watchlistIds);
+      let divisor = watchlistIds?.length / itemsPerPage;
+      setCoins(
+        resp.slice(
+          (watchlistIds?.length / divisor) * (page - 1),
+          (watchlistIds?.length / divisor) * page
+        )
       );
-      setCoins(resp);
     },
     []
   );
