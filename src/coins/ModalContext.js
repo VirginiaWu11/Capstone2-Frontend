@@ -145,7 +145,7 @@ export const ModalProvider = ({ children }) => {
           </DialogContent>
 
           <DialogActions>
-            {watchlistIds.includes(clickedCoin.id) ? (
+            {watchlistIds?.includes(clickedCoin.id) ? (
               <Button onClick={handleUnpin}>Unpin from Watchlist</Button>
             ) : (
               <Button onClick={handlePin}>Pin to Watchlist</Button>
