@@ -1,16 +1,11 @@
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useModalContext } from "../coins/ModalContext";
 import debounce from "lodash.debounce";
 import BackendApi from "../api";
-
-function sleep(delay = 0) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, delay);
-  });
-}
+import CoinGeckoApi from "../CoinGeckoApi";
 
 export default function SearchBar() {
   const [open, setOpen] = React.useState(false);
@@ -24,12 +19,16 @@ export default function SearchBar() {
     }
   }, [open]);
 
-  const onChange = (event, value) => {
-    if (value) {
-      setClickedCoin(() => ({ id: value.coinGeckoId, name: value.name }));
-      handleOpen();
-    }
-  };
+  const onChange = useCallback(
+    async (event, value) => {
+      if (value) {
+        let res = await CoinGeckoApi.getCoins(1, 1, [value.coinGeckoId]);
+        setClickedCoin(() => res[0]);
+        handleOpen();
+      }
+    },
+    [handleOpen, setClickedCoin]
+  );
 
   const debouncedChangeHandler = useMemo(() => {
     const changeHandler = async (event) => {
