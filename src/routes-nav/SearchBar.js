@@ -48,7 +48,7 @@ export default function SearchBar() {
         onChange={onChange}
         size="small"
         id="asynchronous-demo"
-        sx={{ width: 400, m: "auto", backgroundColor: "white" }}
+        sx={{ width: 400, m: "auto", backgroundColor: "whitesmoke" }}
         open={open}
         onOpen={() => {
           setOpen(true);
