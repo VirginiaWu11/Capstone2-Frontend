@@ -14,6 +14,11 @@ const NavBar = () => {
   const signedInNav = () => {
     return (
       <>
+        <Typography variant="h6" component="div" /*  sx={{ flexGrow: 1 }} */>
+          <Button size="large" component={Link} to="/" color="inherit">
+            CoinWallet
+          </Button>
+        </Typography>
         <Box sx={{ m: "auto" }}>
           <SearchBar />
         </Box>
@@ -36,6 +41,11 @@ const NavBar = () => {
   const signedOutNav = () => {
     return (
       <>
+        <Typography variant="h6" sx={{ flexGrow: 1 }}>
+          <Button size="large" component={Link} to="/" color="inherit">
+            CoinWallet
+          </Button>
+        </Typography>
         <Button component={Link} to="/signin" color="inherit">
           Sign In
         </Button>
@@ -48,14 +58,7 @@ const NavBar = () => {
 
   return (
     <AppBar position="sticky">
-      <Toolbar>
-        <Typography variant="h6" component="div" /*  sx={{ flexGrow: 1 }} */>
-          <Button size="large" component={Link} to="/" color="inherit">
-            CoinWallet
-          </Button>
-        </Typography>
-        {currentUser ? signedInNav() : signedOutNav()}
-      </Toolbar>
+      <Toolbar>{currentUser ? signedInNav() : signedOutNav()}</Toolbar>
     </AppBar>
   );
 };
