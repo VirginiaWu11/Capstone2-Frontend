@@ -152,7 +152,7 @@ export const ModalProvider = ({ children }) => {
               <Button onClick={handlePin}>Pin to Watchlist</Button>
             )}
             <Button onClick={handleClose} autoFocus>
-              Add to Dashboard
+              Add to Portfolio
             </Button>
           </DialogActions>
         </Dialog>

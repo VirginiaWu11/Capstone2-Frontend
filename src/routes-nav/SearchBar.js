@@ -36,7 +36,7 @@ export default function SearchBar() {
         searchedCoins = await BackendApi.search(
           event.target.value.toLowerCase()
         );
-        setOptions([...searchedCoins]);
+        setOptions(searchedCoins);
       }
     };
     return debounce(changeHandler, 300);
