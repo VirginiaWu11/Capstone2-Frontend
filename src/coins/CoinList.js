@@ -2,25 +2,48 @@ import { useEffect, useState, memo, useCallback } from "react";
 import CoinGeckoApi from "../CoinGeckoApi";
 import CoinsCardList from "./CoinsCardList";
 import Grid from "@mui/material/Grid";
-// import SearchForm from "../common/SearchForm";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import CoinTable from "./CoinTable";
-import { useListModuleToggleButtonsContext } from "./ListModuleToggleButtonsContext";
 import { useNumberOfItemsSelectContext } from "./NumberOfItemsSelectContext";
 import { usePaginationOutlinedContext } from "./PaginationOutlinedContext";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { useUserWatchlistContext } from "../watchlist/UserWatchlistContext";
 
+import ViewListIcon from "@mui/icons-material/ViewList";
+import ViewModuleIcon from "@mui/icons-material/ViewModule";
+
 const CoinList = memo(() => {
   const [isLoading, setIsLoading] = useState(true);
   const [coins, setCoins] = useState([]);
-  const { ListModuleToggleButtons, view } = useListModuleToggleButtonsContext();
   const { NumberOfItemsSelect, itemsPerPage } = useNumberOfItemsSelectContext();
   const { PaginationOutlined, page, setPage } = usePaginationOutlinedContext();
   const { watchlistIds } = useUserWatchlistContext();
   const [coinsToggleView, setCoinsToggleView] = useState("allcoins");
+
+  const [listModuleView, setlistModuleView] = useState("module");
+  const ListModuleToggleButtons = memo(() => {
+    const handleChange = (event, nextView) => {
+      setlistModuleView(nextView);
+    };
+
+    return (
+      <ToggleButtonGroup
+        value={listModuleView}
+        exclusive
+        onChange={handleChange}
+        sx={{ ml: 2, mt: 2 }}
+      >
+        <ToggleButton value="list" aria-label="list">
+          <ViewListIcon />
+        </ToggleButton>
+        <ToggleButton value="module" aria-label="module">
+          <ViewModuleIcon />
+        </ToggleButton>
+      </ToggleButtonGroup>
+    );
+  });
 
   const getCoins = useCallback(async (page, itemsPerPage) => {
     const resp = await CoinGeckoApi.getCoins(page, itemsPerPage);
@@ -98,7 +121,7 @@ const CoinList = memo(() => {
           <ListModuleToggleButtons />
           <FilterCoinsToggleButtons />
         </Box>
-        {view === "module" ? (
+        {listModuleView === "module" ? (
           coins.length ? (
             <CoinsCardList coins={coins} />
           ) : (
