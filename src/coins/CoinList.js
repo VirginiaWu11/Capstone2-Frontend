@@ -25,53 +25,6 @@ const CoinList = memo(() => {
   const [listModuleView, setlistModuleView] = useState("module");
   const [itemsPerPage, setItemsPerPage] = useState(20);
 
-  const ListModuleToggleButtons = memo(() => {
-    const handleChange = (event, nextView) => {
-      setlistModuleView(nextView);
-    };
-
-    return (
-      <ToggleButtonGroup
-        value={listModuleView}
-        exclusive
-        onChange={handleChange}
-        sx={{ ml: 2, mt: 2 }}
-      >
-        <ToggleButton value="list" aria-label="list">
-          <ViewListIcon />
-        </ToggleButton>
-        <ToggleButton value="module" aria-label="module">
-          <ViewModuleIcon />
-        </ToggleButton>
-      </ToggleButtonGroup>
-    );
-  });
-
-  const NumberOfItemsSelect = () => {
-    const handleChange = (event) => {
-      setItemsPerPage(event.target.value);
-    };
-
-    return (
-      <Box sx={{ minWidth: 150, mx: 2, mb: 1 }}>
-        <FormControl fullWidth size="small">
-          <InputLabel id="items-per-page">Items Per Page</InputLabel>
-          <Select
-            labelId="items-per-page"
-            id="items-per-page"
-            value={itemsPerPage}
-            label="items per page"
-            onChange={handleChange}
-          >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
-    );
-  };
-
   const getCoins = useCallback(async (page, itemsPerPage) => {
     const resp = await CoinGeckoApi.getCoins(page, itemsPerPage);
     setCoins(resp);
@@ -122,6 +75,53 @@ const CoinList = memo(() => {
   if (isLoading) {
     return <p>Loading &hellip;</p>;
   }
+
+  const ListModuleToggleButtons = memo(() => {
+    const handleChange = (event, nextView) => {
+      setlistModuleView(nextView);
+    };
+
+    return (
+      <ToggleButtonGroup
+        value={listModuleView}
+        exclusive
+        onChange={handleChange}
+        sx={{ ml: 2, mt: 2 }}
+      >
+        <ToggleButton value="list" aria-label="list">
+          <ViewListIcon />
+        </ToggleButton>
+        <ToggleButton value="module" aria-label="module">
+          <ViewModuleIcon />
+        </ToggleButton>
+      </ToggleButtonGroup>
+    );
+  });
+
+  const NumberOfItemsSelect = () => {
+    const handleChange = (event) => {
+      setItemsPerPage(event.target.value);
+    };
+
+    return (
+      <Box sx={{ minWidth: 150, mx: 2, mb: 1 }}>
+        <FormControl fullWidth size="small">
+          <InputLabel id="items-per-page">Items Per Page</InputLabel>
+          <Select
+            labelId="items-per-page"
+            id="items-per-page"
+            value={itemsPerPage}
+            label="items per page"
+            onChange={handleChange}
+          >
+            <MenuItem value={10}>Ten</MenuItem>
+            <MenuItem value={20}>Twenty</MenuItem>
+            <MenuItem value={30}>Thirty</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+    );
+  };
 
   const FilterCoinsToggleButtons = memo(() => {
     return (
