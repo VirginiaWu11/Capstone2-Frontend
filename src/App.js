@@ -5,7 +5,6 @@ import Box from "@mui/material/Box";
 import LoadingSpinner from "./common/LoadingSpinner";
 import { useUserContext } from "./auth/UserContext";
 import { ModalProvider } from "./coins/ModalContext";
-import { PaginationOutlinedProvider } from "./coins/PaginationOutlinedContext";
 import { UserWatchlistProvider } from "./watchlist/UserWatchlistContext";
 import { Route, Routes } from "react-router-dom";
 import Home from "./Home";
@@ -27,37 +26,35 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <UserWatchlistProvider>
-          <PaginationOutlinedProvider>
-            <ModalProvider>
-              <NavBar />
-              <Box sx={{ flexGrow: 1 }}>
-                <Routes>
-                  <Route exact path="/" element={<Home />} />
-                  <Route exact path="/signin" element={<SigninForm />} />
-                  <Route exact path="/signup" element={<SignupForm />} />
-                  <Route
-                    exact
-                    path="/profile"
-                    element={
-                      <PrivateRoute>
-                        <ProfileForm />
-                      </PrivateRoute>
-                    }
-                  />
-                  <Route
-                    exact
-                    path="/coins"
-                    element={
-                      <PrivateRoute>
-                        <CoinList />
-                      </PrivateRoute>
-                    }
-                  />
-                  <Route element={<p>not found</p>}></Route>
-                </Routes>
-              </Box>
-            </ModalProvider>
-          </PaginationOutlinedProvider>
+          <ModalProvider>
+            <NavBar />
+            <Box sx={{ flexGrow: 1 }}>
+              <Routes>
+                <Route exact path="/" element={<Home />} />
+                <Route exact path="/signin" element={<SigninForm />} />
+                <Route exact path="/signup" element={<SignupForm />} />
+                <Route
+                  exact
+                  path="/profile"
+                  element={
+                    <PrivateRoute>
+                      <ProfileForm />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  exact
+                  path="/coins"
+                  element={
+                    <PrivateRoute>
+                      <CoinList />
+                    </PrivateRoute>
+                  }
+                />
+                <Route element={<p>not found</p>}></Route>
+              </Routes>
+            </Box>
+          </ModalProvider>
         </UserWatchlistProvider>
       </BrowserRouter>
     </div>

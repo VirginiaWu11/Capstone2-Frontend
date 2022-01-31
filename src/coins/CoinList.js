@@ -5,7 +5,6 @@ import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import CoinTable from "./CoinTable";
-import { usePaginationOutlinedContext } from "./PaginationOutlinedContext";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { useUserWatchlistContext } from "../watchlist/UserWatchlistContext";
@@ -15,15 +14,17 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 
 const CoinList = memo(() => {
   const [isLoading, setIsLoading] = useState(true);
   const [coins, setCoins] = useState([]);
-  const { PaginationOutlined, page, setPage } = usePaginationOutlinedContext();
   const { watchlistIds } = useUserWatchlistContext();
   const [coinsToggleView, setCoinsToggleView] = useState("allcoins");
   const [listModuleView, setlistModuleView] = useState("module");
   const [itemsPerPage, setItemsPerPage] = useState(20);
+  const [page, setPage] = useState(1);
 
   const getCoins = useCallback(async (page, itemsPerPage) => {
     const resp = await CoinGeckoApi.getCoins(page, itemsPerPage);
@@ -122,6 +123,23 @@ const CoinList = memo(() => {
       </Box>
     );
   };
+
+  const PaginationOutlined = memo(({ itemsPerPage, totalItems = 0 }) => {
+    const handleChange = useCallback((event, value) => {
+      setPage(value);
+    }, []);
+    return (
+      <Stack spacing={2}>
+        <Pagination
+          count={Math.ceil(totalItems / itemsPerPage)}
+          page={page}
+          onChange={handleChange}
+          variant="outlined"
+          color="primary"
+        />
+      </Stack>
+    );
+  });
 
   const FilterCoinsToggleButtons = memo(() => {
     return (
