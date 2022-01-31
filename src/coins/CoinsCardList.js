@@ -3,12 +3,9 @@ import Grid from "@mui/material/Grid";
 import CoinCard from "./CoinCard";
 import { CardActionArea } from "@mui/material";
 import Button from "@mui/material/Button";
-import { useModalContext } from "./ModalContext";
 
-const CoinsCardList = memo(({ coins }) => {
+const CoinsCardList = memo(({ coins, handleOpen }) => {
   console.debug("CoinsCardList rendered");
-  const { CoinModal, handleOpen, clickedCoin, setClickedCoin } =
-    useModalContext();
   return (
     <div>
       <Grid
@@ -23,15 +20,13 @@ const CoinsCardList = memo(({ coins }) => {
             <CardActionArea
               component={Button}
               onClick={() => {
-                handleOpen();
-                setClickedCoin(coin);
+                handleOpen(coin);
               }}
             >
               <CoinCard key={coin.id} coin={coin} />{" "}
             </CardActionArea>
           </Grid>
         ))}{" "}
-        <CoinModal clickedCoin={clickedCoin}></CoinModal>
       </Grid>
     </div>
   );

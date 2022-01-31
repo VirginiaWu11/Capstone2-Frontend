@@ -7,7 +7,6 @@ import Box from "@mui/material/Box";
 import CoinTable from "./CoinTable";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import { useUserWatchlistContext } from "../watchlist/UserWatchlistContext";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import ViewModuleIcon from "@mui/icons-material/ViewModule";
 import InputLabel from "@mui/material/InputLabel";
@@ -17,14 +16,14 @@ import Select from "@mui/material/Select";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 
-const CoinList = memo(() => {
+const CoinList = memo(({ watchlistIds, handleOpen }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [coins, setCoins] = useState([]);
-  const { watchlistIds } = useUserWatchlistContext();
   const [coinsToggleView, setCoinsToggleView] = useState("allcoins");
   const [listModuleView, setlistModuleView] = useState("module");
   const [itemsPerPage, setItemsPerPage] = useState(20);
   const [page, setPage] = useState(1);
+  console.debug("watchlistIds in CoinList", watchlistIds);
 
   const getCoins = useCallback(async (page, itemsPerPage) => {
     const resp = await CoinGeckoApi.getCoins(page, itemsPerPage);
@@ -44,6 +43,7 @@ const CoinList = memo(() => {
     },
     []
   );
+
   const handleChange = useCallback(
     (event, nextView) => {
       setPage(1);
@@ -168,14 +168,22 @@ const CoinList = memo(() => {
         </Box>
         {listModuleView === "module" ? (
           coins.length ? (
-            <CoinsCardList coins={coins} />
+            <CoinsCardList
+              coins={coins}
+              watchlistIds={watchlistIds}
+              handleOpen={handleOpen}
+            />
           ) : (
             <Grid item xs={3}>
               <p>No coins found</p>
             </Grid>
           )
         ) : (
-          <CoinTable coins={coins} />
+          <CoinTable
+            coins={coins}
+            watchlistIds={watchlistIds}
+            handleOpen={handleOpen}
+          />
         )}
         <Grid container spacing={1} justifyContent="center" pt={2}>
           <NumberOfItemsSelect />

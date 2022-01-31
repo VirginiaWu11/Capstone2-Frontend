@@ -2,16 +2,15 @@ import React, { useCallback, useMemo } from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
-import { useModalContext } from "../coins/ModalContext";
 import debounce from "lodash.debounce";
 import BackendApi from "../api";
 import CoinGeckoApi from "../CoinGeckoApi";
 
-export default function SearchBar() {
+export default function SearchBar({ handleOpen }) {
+  console.debug("searchBar rendered:", { handleOpen });
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
   const loading = open && options.length === 0;
-  const { CoinModal, handleOpen, setClickedCoin } = useModalContext();
 
   React.useEffect(() => {
     if (!open) {
@@ -23,11 +22,10 @@ export default function SearchBar() {
     async (event, value) => {
       if (value) {
         let res = await CoinGeckoApi.getCoins(1, 1, [value.coinGeckoId]);
-        setClickedCoin(() => res[0]);
-        handleOpen();
+        handleOpen(() => res[0]);
       }
     },
-    [handleOpen, setClickedCoin]
+    [handleOpen]
   );
 
   const debouncedChangeHandler = useMemo(() => {
@@ -79,7 +77,6 @@ export default function SearchBar() {
           />
         )}
       />
-      <CoinModal />
     </>
   );
 }

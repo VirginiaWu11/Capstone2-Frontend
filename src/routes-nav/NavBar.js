@@ -18,8 +18,8 @@ import ListItemText from "@mui/material/ListItemText";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 
-const NavBar = () => {
-  console.debug("NavBar rendered");
+const NavBar = ({ handleOpen }) => {
+  console.debug("NavBar rendered:", { handleOpen });
   const { currentUser, signout } = useUserContext();
   const [openDrawer, setOpenDrawer] = useState(false);
   const [value, setValue] = useState(0);
@@ -48,11 +48,7 @@ const NavBar = () => {
   );
 
   const tabs = (
-    <Tabs
-      value={value}
-      onChange={handleChange}
-      textColor="inherit"
-    >
+    <Tabs value={value} onChange={handleChange} textColor="inherit">
       {signedInRoutes.map((route, index) => (
         <Tab
           component={Link}
@@ -75,10 +71,10 @@ const NavBar = () => {
         onOpen={() => setOpenDrawer(true)}
       >
         <div /* className={classes.toolbarMargin} */ />
-        <List >
+        <List>
           <ListItemButton>
             <Box sx={{ m: "auto" }}>
-              <SearchBar />
+              <SearchBar handleOpen={handleOpen} />
             </Box>
           </ListItemButton>
           {signedInRoutes.map((route, index) => (
@@ -93,27 +89,23 @@ const NavBar = () => {
                 setOpenDrawer(false);
                 setValue(route.activeIndex);
               }}
-            >{console.log(value,route.activeIndex,value === route.activeIndex)}
-              <ListItemText >
-                {route.name}
-              </ListItemText>
+            >
+              {console.log(
+                value,
+                route.activeIndex,
+                value === route.activeIndex
+              )}
+              <ListItemText>{route.name}</ListItemText>
             </ListItemButton>
           ))}
-          <ListItemButton
-            component={Link}
-            to="/"
-            onClick={signout}
-          >
+          <ListItemButton component={Link} to="/" onClick={signout}>
             <ListItemText>Logout</ListItemText>
           </ListItemButton>
         </List>
       </SwipeableDrawer>
-      <IconButton
-        color="inherit"
-        onClick={() => setOpenDrawer(!openDrawer)}
-      >
+      <IconButton color="inherit" onClick={() => setOpenDrawer(!openDrawer)}>
         <MenuIcon
-        sx={{
+          sx={{
             height: "40px",
             width: "40px",
           }}
@@ -137,16 +129,13 @@ const NavBar = () => {
           </>
         ) : (
           <>
-            <Typography
-              variant="h6"
-              component="div" 
-            >
+            <Typography variant="h6" component="div">
               <Button size="large" component={Link} to="/" color="inherit">
                 CoinWallet
               </Button>
             </Typography>
             <Box sx={{ m: "auto" }}>
-              <SearchBar />
+              <SearchBar handleOpen={handleOpen} />
             </Box>
             {tabs}
             <Button

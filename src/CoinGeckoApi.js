@@ -37,6 +37,7 @@ class CoinGeckoApi {
       sparkline: false,
       // ids: "bitcoin,tether",
     };
+    console.debug("ids in getCoins CoinGecko api:", ids);
     if (ids) {
       requestObj["ids"] = ids.join(",");
     }

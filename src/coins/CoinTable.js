@@ -7,7 +7,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import CardMedia from "@mui/material/CardMedia";
-import { useModalContext } from "./ModalContext";
 
 const columns = [
   {
@@ -86,9 +85,7 @@ const columns = [
   },
 ];
 
-const CoinTable = ({ coins }) => {
-  const { CoinModal, handleOpen, clickedCoin, setClickedCoin } =
-    useModalContext();
+const CoinTable = ({ coins, handleOpen }) => {
   return (
     <Paper sx={{ width: "100%", overflow: "hidden", margin: 2 }}>
       <TableContainer sx={{ maxHeight: 900 }}>
@@ -111,8 +108,8 @@ const CoinTable = ({ coins }) => {
                   role="checkbox"
                   tabIndex={-1}
                   onClick={() => {
-                    handleOpen();
-                    setClickedCoin(row);
+                    handleOpen(row);
+                    // setClickedCoin(row);
                   }}
                 >
                   {columns.map((column) => {
@@ -139,7 +136,6 @@ const CoinTable = ({ coins }) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <CoinModal clickedCoin={clickedCoin}></CoinModal>
     </Paper>
   );
 };
