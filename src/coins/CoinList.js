@@ -5,24 +5,26 @@ import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import CoinTable from "./CoinTable";
-import { useNumberOfItemsSelectContext } from "./NumberOfItemsSelectContext";
 import { usePaginationOutlinedContext } from "./PaginationOutlinedContext";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { useUserWatchlistContext } from "../watchlist/UserWatchlistContext";
-
 import ViewListIcon from "@mui/icons-material/ViewList";
 import ViewModuleIcon from "@mui/icons-material/ViewModule";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 const CoinList = memo(() => {
   const [isLoading, setIsLoading] = useState(true);
   const [coins, setCoins] = useState([]);
-  const { NumberOfItemsSelect, itemsPerPage } = useNumberOfItemsSelectContext();
   const { PaginationOutlined, page, setPage } = usePaginationOutlinedContext();
   const { watchlistIds } = useUserWatchlistContext();
   const [coinsToggleView, setCoinsToggleView] = useState("allcoins");
-
   const [listModuleView, setlistModuleView] = useState("module");
+  const [itemsPerPage, setItemsPerPage] = useState(20);
+
   const ListModuleToggleButtons = memo(() => {
     const handleChange = (event, nextView) => {
       setlistModuleView(nextView);
@@ -44,6 +46,31 @@ const CoinList = memo(() => {
       </ToggleButtonGroup>
     );
   });
+
+  const NumberOfItemsSelect = () => {
+    const handleChange = (event) => {
+      setItemsPerPage(event.target.value);
+    };
+
+    return (
+      <Box sx={{ minWidth: 150, mx: 2, mb: 1 }}>
+        <FormControl fullWidth size="small">
+          <InputLabel id="items-per-page">Items Per Page</InputLabel>
+          <Select
+            labelId="items-per-page"
+            id="items-per-page"
+            value={itemsPerPage}
+            label="items per page"
+            onChange={handleChange}
+          >
+            <MenuItem value={10}>Ten</MenuItem>
+            <MenuItem value={20}>Twenty</MenuItem>
+            <MenuItem value={30}>Thirty</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+    );
+  };
 
   const getCoins = useCallback(async (page, itemsPerPage) => {
     const resp = await CoinGeckoApi.getCoins(page, itemsPerPage);
