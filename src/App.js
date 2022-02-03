@@ -30,9 +30,7 @@ function App() {
   const { infoLoaded } = useUserContext();
   const [open, setOpen] = useState(false);
   const [clickedCoin, setClickedCoin] = useState({});
-  const [coinData, setCoinData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [chartDaysView, setChartDaysView] = useState(7);
   const [watchlistIds, setWatchlistIds] = useState();
 
   useEffect(
@@ -56,7 +54,7 @@ function App() {
     watchlistIds
   );
 
-  const handleOpen = useCallback((coin) => {
+  const handleOpen = useCallback(async (coin) => {
     setClickedCoin(coin);
     setOpen(true);
   }, []);
@@ -77,56 +75,50 @@ function App() {
     handleClose();
   }, [clickedCoin.id, handleClose, setWatchlistIds, watchlistIds]);
 
-  useEffect(() => {
-    const getCoinMarketData = async (id, days) => {
-      const resp = await CoinGeckoApi.getCoinMarketChart(id, days);
-      setCoinData(resp);
+  console.debug("Modal in App:", { clickedCoin, isLoading }, { open });
+
+  const CoinModal = memo(({ clickedCoin, isPinned }) => {
+    const [chartDaysView, setChartDaysView] = useState(7);
+    const [coinData, setCoinData] = useState([]);
+
+    useEffect(() => {
+      const getCoinMarketData = async (id, days) => {
+        const resp = await CoinGeckoApi.getCoinMarketChart(id, days);
+        setCoinData(resp);
+      };
+      if (clickedCoin.id) {
+        getCoinMarketData(clickedCoin.id, chartDaysView);
+      }
+    }, [clickedCoin.id, chartDaysView]);
+
+    const ChartDaysToggleButtons = () => {
+      const handleChange = (event, nextView) => {
+        setChartDaysView(nextView);
+      };
+
+      return (
+        <ToggleButtonGroup
+          value={chartDaysView}
+          exclusive
+          onChange={handleChange}
+          sx={{ ml: 1, mt: 2 }}
+        >
+          <ToggleButton value={7} aria-label="list">
+            7 Days
+          </ToggleButton>
+          <ToggleButton value={14} aria-label="module">
+            14 Days
+          </ToggleButton>
+          <ToggleButton value={30} aria-label="module">
+            30 Days
+          </ToggleButton>
+          <ToggleButton value={90} aria-label="module">
+            90 Days
+          </ToggleButton>
+        </ToggleButtonGroup>
+      );
     };
-    if (clickedCoin.id) {
-      getCoinMarketData(clickedCoin.id, chartDaysView);
-      setIsLoading(false);
-    }
-  }, [clickedCoin.id, chartDaysView]);
 
-  console.debug(
-    "Modal in App:",
-    { clickedCoin, isLoading },
-    { coinData },
-    { open }
-  );
-
-  const ChartDaysToggleButtons = () => {
-    const handleChange = (event, nextView) => {
-      setChartDaysView(nextView);
-    };
-    if (isLoading || !clickedCoin) {
-      return <p>Loading &hellip;</p>;
-    }
-
-    return (
-      <ToggleButtonGroup
-        value={chartDaysView}
-        exclusive
-        onChange={handleChange}
-        sx={{ ml: 1, mt: 2 }}
-      >
-        <ToggleButton value={7} aria-label="list">
-          7 Days
-        </ToggleButton>
-        <ToggleButton value={14} aria-label="module">
-          14 Days
-        </ToggleButton>
-        <ToggleButton value={30} aria-label="module">
-          30 Days
-        </ToggleButton>
-        <ToggleButton value={90} aria-label="module">
-          90 Days
-        </ToggleButton>
-      </ToggleButtonGroup>
-    );
-  };
-
-  const CoinModal = memo(() => {
     console.debug("CoinModal Rendered");
     return (
       <div>
@@ -179,7 +171,7 @@ function App() {
           </DialogContent>
 
           <DialogActions>
-            {watchlistIds?.includes(clickedCoin.id) ? (
+            {isPinned ? (
               <Button onClick={handleUnpin}>Unpin from Watchlist</Button>
             ) : (
               <Button onClick={handlePin}>Pin to Watchlist</Button>
@@ -199,7 +191,13 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <NavBar handleOpen={handleOpen} />
-        <CoinModal />
+        {clickedCoin ? (
+          <CoinModal
+            clickedCoin={clickedCoin}
+            isPinned={watchlistIds?.includes(clickedCoin.id)}
+          />
+        ) : null}
+
         <Box sx={{ flexGrow: 1 }}>
           <Routes>
             <Route exact path="/" element={<Home />} />
