@@ -16,7 +16,11 @@ function Footer() {
         target="_blank"
         rel="noopener"
       >
-        <GitHubIcon />
+        <GitHubIcon
+          sx={{
+            color: "primary.main",
+          }}
+        />
       </Link>
     </Typography>
   );
