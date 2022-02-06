@@ -7,6 +7,7 @@ import { useUserContext } from "./auth/UserContext";
 import { Route, Routes } from "react-router-dom";
 import Home from "./Home";
 import CoinList from "./coins/CoinList";
+import AssetList from "./portfolio/Portfolio";
 import SigninForm from "./auth/SigninForm";
 import SignupForm from "./auth/SignupForm";
 import ProfileForm from "./ProfileForm";
@@ -22,6 +23,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import BackendApi from "./api";
+import StickyFooter from "./StickyFooter";
 
 export const TOKEN_STORAGE_ID = "coinWallet-token";
 
@@ -30,7 +32,7 @@ function App() {
   const { infoLoaded } = useUserContext();
   const [open, setOpen] = useState(false);
   const [clickedCoin, setClickedCoin] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
   const [watchlistIds, setWatchlistIds] = useState();
 
   useEffect(
@@ -75,7 +77,7 @@ function App() {
     handleClose();
   }, [clickedCoin.id, handleClose, setWatchlistIds, watchlistIds]);
 
-  console.debug("Modal in App:", { clickedCoin, isLoading }, { open });
+  // console.debug("Modal in App:", { clickedCoin, isLoading }, { open });
 
   const CoinModal = memo(({ clickedCoin, isPinned }) => {
     const [chartDaysView, setChartDaysView] = useState(7);
@@ -167,7 +169,12 @@ function App() {
           </DialogContent>
           <ChartDaysToggleButtons />
           <DialogContent>
-            {coinData.prices ? <CoinChart coinData={coinData.prices} /> : null}
+            {coinData.prices ? (
+              <CoinChart
+                coinData={coinData.prices}
+                maintainAspectRatio={true}
+              />
+            ) : null}
           </DialogContent>
 
           <DialogActions>
@@ -190,46 +197,60 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <NavBar handleOpen={handleOpen} />
-        {clickedCoin ? (
-          <CoinModal
-            clickedCoin={clickedCoin}
-            isPinned={watchlistIds?.includes(clickedCoin.id)}
-          />
-        ) : null}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            minHeight: "100vh",
+          }}
+        >
+          <NavBar handleOpen={handleOpen} />
+          {clickedCoin ? (
+            <CoinModal
+              clickedCoin={clickedCoin}
+              isPinned={watchlistIds?.includes(clickedCoin.id)}
+            />
+          ) : null}
 
-        <Box sx={{ flexGrow: 1 }}>
-          <Routes>
-            <Route exact path="/" element={<Home />} />
-            <Route exact path="/signin" element={<SigninForm />} />
-            <Route exact path="/signup" element={<SignupForm />} />
-            <Route
-              exact
-              path="/profile"
-              element={
-                <PrivateRoute>
-                  <ProfileForm />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              exact
-              path="/coins"
-              element={
-                <PrivateRoute>
-                  {console.debug(
-                    "watchlistids in App privateRoute:",
-                    watchlistIds
-                  )}
-                  <CoinList
-                    watchlistIds={watchlistIds}
-                    handleOpen={handleOpen}
-                  />
-                </PrivateRoute>
-              }
-            />
-            <Route element={<p>not found</p>}></Route>
-          </Routes>
+          <Box sx={{ flexGrow: 1 }}>
+            <Routes>
+              <Route exact path="/" element={<Home />} />
+              <Route exact path="/signin" element={<SigninForm />} />
+              <Route exact path="/signup" element={<SignupForm />} />
+              <Route
+                exact
+                path="/profile"
+                element={
+                  <PrivateRoute>
+                    <ProfileForm />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                exact
+                path="/coins"
+                element={
+                  <PrivateRoute>
+                    <CoinList
+                      watchlistIds={watchlistIds}
+                      handleOpen={handleOpen}
+                    />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                exact
+                path="/portfolio"
+                element={
+                  <PrivateRoute>
+                    <AssetList portfolioIds={watchlistIds} />
+                  </PrivateRoute>
+                }
+              />
+              <Route element={<p>not found</p>}></Route>
+            </Routes>
+          </Box>
+          <StickyFooter />
         </Box>
       </BrowserRouter>
     </div>

@@ -28,13 +28,18 @@ class CoinGeckoApi {
   }
 
   /** Get paginated coins by market cap. */
-  static async getCoins(page = 1, itemsPerPage = 20, ids = undefined) {
+  static async getCoins(
+    page = 1,
+    itemsPerPage = 20,
+    ids = undefined,
+    sparkline = false
+  ) {
     const requestObj = {
       vs_currency: "usd",
       order: "market_cap_desc",
       per_page: itemsPerPage,
       page: page,
-      sparkline: false,
+      sparkline: sparkline,
       // ids: "bitcoin,tether",
     };
     console.debug("ids in getCoins CoinGecko api:", ids);
