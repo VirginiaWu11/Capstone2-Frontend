@@ -23,27 +23,30 @@ ChartJS.register(
   Legend
 );
 
-export const options = {
-  responsive: true,
-  scales: {
-    x: {
-      ticks: {
-        maxTicksLimit: 12,
+export function CoinChart({ coinData, maintainAspectRatio = true }) {
+  const options = {
+    responsive: true,
+    maintainAspectRatio: maintainAspectRatio,
+
+    scales: {
+      x: {
+        ticks: {
+          maxTicksLimit: 12,
+        },
       },
     },
-  },
-  plugins: {
-    legend: {
-      position: "top",
+    plugins: {
+      legend: {
+        position: "top",
+        display: false,
+      },
+      title: {
+        display: false,
+        text: "",
+      },
     },
-    title: {
-      display: true,
-      text: "",
-    },
-  },
-};
+  };
 
-export function CoinChart({ coinData }) {
   console.debug("inside CoinChart", { coinData });
   const labels = coinData.map((point) =>
     moment(point[0]).local().format("MM/DD/YY h:mm A")
@@ -56,7 +59,7 @@ export function CoinChart({ coinData }) {
         label: "",
         data: coinData.map((point) => point[1]),
         borderColor: "rgb(66, 165, 245)",
-        backgroundColor: "rgba(66, 165, 245), 0.5)",
+        backgroundColor: "rgba(66, 165, 245), 0.9)",
       },
     ],
   };
