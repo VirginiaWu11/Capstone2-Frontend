@@ -30,10 +30,27 @@ export const TOKEN_STORAGE_ID = "coinWallet-token";
 function App() {
   console.debug("App rendered");
   const { infoLoaded } = useUserContext();
-  const [open, setOpen] = useState(false);
+  const [coinModalOpen, setCoinModalOpen] = useState(false);
   const [clickedCoin, setClickedCoin] = useState({});
   // const [isLoading, setIsLoading] = useState(true);
   const [watchlistIds, setWatchlistIds] = useState();
+  const [portfolioCoins, setPortfolioCoins] = useState();
+
+  useEffect(
+    function loadUserPortfolio() {
+      async function getUserPortfolio() {
+        try {
+          let idsResp = await BackendApi.get_user_portfolio();
+          setPortfolioCoins(idsResp);
+          console.debug("setPortfolioCoins in useeffect line 45", idsResp);
+        } catch (err) {
+          console.error("App loadUserPortfolio: problem loading", err);
+        }
+      }
+      getUserPortfolio();
+    },
+    [setPortfolioCoins, infoLoaded]
+  );
 
   useEffect(
     function loadUserWatchlist() {
@@ -56,30 +73,38 @@ function App() {
     watchlistIds
   );
 
-  const handleOpen = useCallback(async (coin) => {
+  const handleCoinModalOpen = useCallback(async (coin) => {
     setClickedCoin(coin);
-    setOpen(true);
+    setCoinModalOpen(true);
   }, []);
 
-  const handleClose = useCallback(() => setOpen(false), []);
+  const handleCoinModalClose = useCallback(() => setCoinModalOpen(false), []);
 
   const handlePin = useCallback(() => {
     BackendApi.pin(clickedCoin.id);
     setWatchlistIds([...watchlistIds, clickedCoin.id]);
-    handleClose();
-  }, [clickedCoin.id, handleClose, setWatchlistIds, watchlistIds]);
+    handleCoinModalClose();
+  }, [clickedCoin.id, handleCoinModalClose, setWatchlistIds, watchlistIds]);
 
   const handleUnpin = useCallback(() => {
     BackendApi.unpin(clickedCoin.id);
     setWatchlistIds(
       watchlistIds.filter((watchlistId) => watchlistId !== clickedCoin.id)
     );
-    handleClose();
-  }, [clickedCoin.id, handleClose, setWatchlistIds, watchlistIds]);
+    handleCoinModalClose();
+  }, [clickedCoin.id, handleCoinModalClose, setWatchlistIds, watchlistIds]);
+
+  const removeFromPortfolio = useCallback(() => {
+    BackendApi.removeAssets(clickedCoin.id);
+    setPortfolioCoins(
+      portfolioCoins.filter((coin) => coin.coinGeckoId !== clickedCoin.id)
+    );
+    handleCoinModalClose();
+  }, [clickedCoin.id, handleCoinModalClose, setPortfolioCoins, portfolioCoins]);
 
   // console.debug("Modal in App:", { clickedCoin, isLoading }, { open });
 
-  const CoinModal = memo(({ clickedCoin, isPinned }) => {
+  const CoinModal = memo(({ clickedCoin, isPinned, isOnPortfolio }) => {
     const [chartDaysView, setChartDaysView] = useState(7);
     const [coinData, setCoinData] = useState([]);
 
@@ -125,8 +150,8 @@ function App() {
     return (
       <div>
         <Dialog
-          open={open}
-          onClose={handleClose}
+          open={coinModalOpen}
+          onClose={handleCoinModalClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
           maxWidth="lg"
@@ -183,9 +208,15 @@ function App() {
             ) : (
               <Button onClick={handlePin}>Pin to Watchlist</Button>
             )}
-            <Button onClick={handleClose} autoFocus>
-              Add to Portfolio
-            </Button>
+            {isOnPortfolio ? (
+              <Button onClick={removeFromPortfolio} autoFocus>
+                Remove from Portfolio
+              </Button>
+            ) : (
+              <Button onClick={handleCoinModalClose} autoFocus>
+                Add to Portfolio
+              </Button>
+            )}
           </DialogActions>
         </Dialog>
       </div>
@@ -204,11 +235,14 @@ function App() {
             minHeight: "100vh",
           }}
         >
-          <NavBar handleOpen={handleOpen} />
+          <NavBar handleCoinModalOpen={handleCoinModalOpen} />
           {clickedCoin ? (
             <CoinModal
               clickedCoin={clickedCoin}
               isPinned={watchlistIds?.includes(clickedCoin.id)}
+              isOnPortfolio={portfolioCoins
+                ?.map((element) => element.coinGeckoId)
+                ?.includes(clickedCoin.id)}
             />
           ) : null}
 
@@ -233,7 +267,7 @@ function App() {
                   <PrivateRoute>
                     <CoinList
                       watchlistIds={watchlistIds}
-                      handleOpen={handleOpen}
+                      handleCoinModalOpen={handleCoinModalOpen}
                     />
                   </PrivateRoute>
                 }

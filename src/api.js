@@ -52,14 +52,37 @@ class BackendApi {
     let res = await this.request(`watchlist`);
     return res.pins;
   }
+
   static async pin(coin_gecko_id) {
     await this.request(`users/pin/${coin_gecko_id}`, {}, "post");
     return;
   }
+
   static async unpin(coin_gecko_id) {
     await this.request(`users/unpin/${coin_gecko_id}`, {}, "post");
     return;
   }
+
+  static async get_user_portfolio() {
+    let res = await this.request(`portfolio`);
+    console.debug("*******11111", res);
+    return res.assets;
+  }
+
+  static async addAssets(coin_gecko_id, quantity) {
+    await this.request(
+      `users/addasset/${coin_gecko_id}/${quantity}`,
+      {},
+      "post"
+    );
+    return;
+  }
+
+  static async removeAssets(coin_gecko_id) {
+    await this.request(`users/removeasset/${coin_gecko_id}`, {}, "post");
+    return;
+  }
+
   static async search(searchTerm) {
     let res = await this.request(`coins/search`, { search: searchTerm }, "get");
     return res.coins;
