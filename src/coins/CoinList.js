@@ -21,7 +21,7 @@ const CoinList = memo(({ watchlistIds, handleOpen }) => {
   const [coins, setCoins] = useState([]);
   const [coinsToggleView, setCoinsToggleView] = useState("allcoins");
   const [listModuleView, setlistModuleView] = useState("module");
-  const [itemsPerPage, setItemsPerPage] = useState(20);
+  const [itemsPerPage, setItemsPerPage] = useState(16);
   const [page, setPage] = useState(1);
   console.debug("watchlistIds in CoinList", watchlistIds);
 
@@ -116,8 +116,8 @@ const CoinList = memo(({ watchlistIds, handleOpen }) => {
             onChange={handleChange}
           >
             <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
+            <MenuItem value={16}>Sixteen</MenuItem>
+            <MenuItem value={24}>TwentyFour</MenuItem>
           </Select>
         </FormControl>
       </Box>
