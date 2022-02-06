@@ -18,8 +18,8 @@ import ListItemText from "@mui/material/ListItemText";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 
-const NavBar = ({ handleOpen }) => {
-  console.debug("NavBar rendered:", { handleOpen });
+const NavBar = ({ handleCoinModalOpen }) => {
+  console.debug("NavBar rendered:", { handleCoinModalOpen });
   const { currentUser, signout } = useUserContext();
   const [openDrawer, setOpenDrawer] = useState(false);
   const [value, setValue] = useState(0);
@@ -74,7 +74,7 @@ const NavBar = ({ handleOpen }) => {
         <List>
           <ListItemButton>
             <Box sx={{ m: "auto" }}>
-              <SearchBar handleOpen={handleOpen} />
+              <SearchBar handleCoinModalOpen={handleCoinModalOpen} />
             </Box>
           </ListItemButton>
           {signedInRoutes.map((route, index) => (
@@ -135,7 +135,7 @@ const NavBar = ({ handleOpen }) => {
               </Button>
             </Typography>
             <Box sx={{ m: "auto" }}>
-              <SearchBar handleOpen={handleOpen} />
+              <SearchBar handleCoinModalOpen={handleCoinModalOpen} />
             </Box>
             {tabs}
             <Button

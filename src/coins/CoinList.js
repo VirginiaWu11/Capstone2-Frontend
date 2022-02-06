@@ -16,7 +16,7 @@ import Select from "@mui/material/Select";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 
-const CoinList = memo(({ watchlistIds, handleOpen }) => {
+const CoinList = memo(({ watchlistIds, handleCoinModalOpen }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [coins, setCoins] = useState([]);
   const [coinsToggleView, setCoinsToggleView] = useState("allcoins");
@@ -171,7 +171,7 @@ const CoinList = memo(({ watchlistIds, handleOpen }) => {
             <CoinsCardList
               coins={coins}
               watchlistIds={watchlistIds}
-              handleOpen={handleOpen}
+              handleCoinModalOpen={handleCoinModalOpen}
             />
           ) : (
             <Grid item xs={3}>
@@ -182,7 +182,7 @@ const CoinList = memo(({ watchlistIds, handleOpen }) => {
           <CoinTable
             coins={coins}
             watchlistIds={watchlistIds}
-            handleOpen={handleOpen}
+            handleCoinModalOpen={handleCoinModalOpen}
           />
         )}
         <Grid container spacing={1} justifyContent="center" pt={2}>

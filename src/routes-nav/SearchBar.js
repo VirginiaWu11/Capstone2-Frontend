@@ -6,8 +6,8 @@ import debounce from "lodash.debounce";
 import BackendApi from "../api";
 import CoinGeckoApi from "../CoinGeckoApi";
 
-export default function SearchBar({ handleOpen }) {
-  console.debug("searchBar rendered:", { handleOpen });
+export default function SearchBar({ handleCoinModalOpen }) {
+  console.debug("searchBar rendered:", { handleCoinModalOpen });
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
   const loading = open && options.length === 0;
@@ -22,10 +22,10 @@ export default function SearchBar({ handleOpen }) {
     async (event, value) => {
       if (value) {
         let res = await CoinGeckoApi.getCoins(1, 1, [value.coinGeckoId]);
-        handleOpen(() => res[0]);
+        handleCoinModalOpen(() => res[0]);
       }
     },
-    [handleOpen]
+    [handleCoinModalOpen]
   );
 
   const debouncedChangeHandler = useMemo(() => {

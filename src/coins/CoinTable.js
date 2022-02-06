@@ -85,7 +85,7 @@ const columns = [
   },
 ];
 
-const CoinTable = ({ coins, handleOpen }) => {
+const CoinTable = ({ coins, handleCoinModalOpen }) => {
   return (
     <Paper sx={{ width: "100%", overflow: "hidden", margin: 2 }}>
       <TableContainer sx={{ maxHeight: 700 }}>
@@ -108,7 +108,7 @@ const CoinTable = ({ coins, handleOpen }) => {
                   role="checkbox"
                   tabIndex={-1}
                   onClick={() => {
-                    handleOpen(row);
+                    handleCoinModalOpen(row);
                     // setClickedCoin(row);
                   }}
                 >

@@ -4,7 +4,7 @@ import CoinCard from "./CoinCard";
 import { CardActionArea } from "@mui/material";
 import Button from "@mui/material/Button";
 
-const CoinsCardList = memo(({ coins, handleOpen }) => {
+const CoinsCardList = memo(({ coins, handleCoinModalOpen }) => {
   console.debug("CoinsCardList rendered");
   return (
     <div>
@@ -20,7 +20,7 @@ const CoinsCardList = memo(({ coins, handleOpen }) => {
             <CardActionArea
               component={Button}
               onClick={() => {
-                handleOpen(coin);
+                handleCoinModalOpen(coin);
               }}
             >
               <CoinCard key={coin.id} coin={coin} />{" "}
