@@ -38,6 +38,8 @@ function App() {
   const [watchlistIds, setWatchlistIds] = useState();
   const [portfolioCoins, setPortfolioCoins] = useState();
   const [portfolioModalopen, setPortfolioModalOpen] = useState(false);
+  const [portfolioModalCoin, setPortfolioModalCoin] = useState();
+
   console.debug("portfolioModalopen:", portfolioModalopen);
   useEffect(
     function loadUserPortfolio() {
@@ -105,27 +107,41 @@ function App() {
     [handleCoinModalClose, setWatchlistIds, watchlistIds]
   );
 
-  const handlePortfolioModalOpen = () => {
-    setPortfolioModalOpen(true, () => {
-      console.log("The name has updated and component re-rendered");
-    });
-  };
-  const closeCoinModalOpenPortfolioModal = () => {
-    setCoinModalOpen(false);
+  const handlePortfolioModalOpen = (coin) => {
+    setPortfolioModalCoin(coin);
     setPortfolioModalOpen(true);
+  };
+
+  const closeCoinModalOpenPortfolioModal = (coin) => {
+    setCoinModalOpen(false);
+    handlePortfolioModalOpen(coin);
   };
 
   const handlePortfolioModalClose = () => {
     setPortfolioModalOpen(false);
   };
 
-  const removeFromPortfolio = useCallback(() => {
-    BackendApi.removeAssets(clickedCoin.id);
-    setPortfolioCoins(
-      portfolioCoins.filter((coin) => coin.coinGeckoId !== clickedCoin.id)
-    );
-    handleCoinModalClose();
-  }, [clickedCoin.id, handleCoinModalClose, setPortfolioCoins, portfolioCoins]);
+  const addToPortfolio = useCallback(
+    (id, quantity) => {
+      BackendApi.addAssets(id, quantity);
+      setPortfolioCoins([
+        ...portfolioCoins,
+        { coinGeckoId: id, quantity: quantity },
+      ]);
+    },
+    [portfolioCoins]
+  );
+
+  const removeFromPortfolio = useCallback(
+    (id) => {
+      BackendApi.removeAssets(id);
+      setPortfolioCoins(
+        portfolioCoins.filter((coin) => coin.coinGeckoId !== id)
+      );
+      handleCoinModalClose();
+    },
+    [handleCoinModalClose, setPortfolioCoins, portfolioCoins]
+  );
 
   // console.debug("Modal in App:", { clickedCoin, isLoading }, { open });
 
@@ -293,11 +309,17 @@ function App() {
                 </Button>
               )}
               {isOnPortfolio ? (
-                <Button onClick={removeFromPortfolio} autoFocus>
+                <Button
+                  onClick={() => removeFromPortfolio(clickedCoin.id)}
+                  autoFocus
+                >
                   Remove from Portfolio
                 </Button>
               ) : (
-                <Button onClick={closeCoinModalOpenPortfolioModal} autoFocus>
+                <Button
+                  onClick={() => closeCoinModalOpenPortfolioModal(clickedCoin)}
+                  autoFocus
+                >
                   Add to Portfolio
                 </Button>
               )}
@@ -336,6 +358,8 @@ function App() {
           <PortfolioForm
             portfolioModalopen={portfolioModalopen}
             handlePortfolioModalClose={handlePortfolioModalClose}
+            portfolioModalCoin={portfolioModalCoin}
+            addToPortfolio={addToPortfolio}
           />
           <Box sx={{ flexGrow: 1 }}>
             <Routes>
