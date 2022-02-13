@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useState } from "react";
+import React, { memo, useCallback } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -11,8 +11,6 @@ import PushPinIcon from "@mui/icons-material/PushPin";
 import PushPinOutlinedIcon from "@mui/icons-material/PushPinOutlined";
 
 const CoinCard = memo(({ coin, isPinned, handlePin, handleUnpin }) => {
-  const [pinned, setPinned] = useState(isPinned(coin.id));
-
   const truncate = useCallback((str, n) => {
     return str.length > n ? str.substr(0, n - 1) + "..." : str;
   }, []);
