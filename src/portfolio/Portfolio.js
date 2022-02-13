@@ -3,11 +3,11 @@ import { Box, Container, Grid } from "@mui/material";
 import { PortfolioLineChart } from "./PortfolioLineChart";
 import { ChangeCard } from "./ChangeCard";
 import { TotalCard } from "./TotalCard";
-import { HoldingsTable } from "./HoldingsTable";
 import { HoldingsDoughnut } from "./HoldingsDoughnut";
 import CoinGeckoApi from "../CoinGeckoApi";
 import * as PortfolioService from "./PortfolioService";
 import LoadingSpinner from "../common/LoadingSpinner";
+import HoldingsTable from "./HoldingsTable";
 
 const Portfolio = ({ portfolioCoins }) => {
   console.debug("PortfolioCoins in Portfolio:", portfolioCoins);
@@ -115,7 +115,11 @@ const Portfolio = ({ portfolioCoins }) => {
               <HoldingsDoughnut sx={{ height: "100%" }} />
             </Grid>
             <Grid item xl={12} lg={12} md={12} xs={12}>
-              <HoldingsTable />
+              {/* <HoldingsTable /> */}
+              <HoldingsTable
+                portfolioCoinsObj={portfolioCoinsObj}
+                coins={coins}
+              />
             </Grid>
           </Grid>
         </Container>
