@@ -115,7 +115,6 @@ const Portfolio = ({ portfolioCoins }) => {
               <HoldingsDoughnut sx={{ height: "100%" }} />
             </Grid>
             <Grid item xl={12} lg={12} md={12} xs={12}>
-              {/* <HoldingsTable /> */}
               <HoldingsTable
                 portfolioCoinsObj={portfolioCoinsObj}
                 coins={coins}
