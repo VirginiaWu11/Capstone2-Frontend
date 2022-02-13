@@ -36,7 +36,7 @@ export const totalPortfolioValueDifference = (
     );
 
     hoursAgoTotal +=
-      coin.sparkline_in_7d.price[hours] * portfolioCoinsObj[coin.id];
+      coin.sparkline_in_7d.price.reverse()[hours] * portfolioCoinsObj[coin.id];
   }
   let percentDifference =
     ((currentTotal - hoursAgoTotal) / hoursAgoTotal) * 100;
@@ -74,3 +74,44 @@ export const addDateToData = (data, coins, portfolioCoinsObj) => {
   data.push([new Date(), currentTotalValue]);
   return data;
 };
+
+export const portfolioDonutData = (coins, portfolioCoinsObj) => {
+  let resultsObj = [];
+  let threeDataPoints = [];
+  let otherVal;
+  for (let coin of coins) {
+    const obj = {};
+    obj["id"] = coin.id;
+    obj["logo"] = coin.image;
+    obj["name"] = coin.name;
+    obj["currentPrice"] = coin.current_price;
+    obj["quantity"] = portfolioCoinsObj[coin.id];
+    obj["value"] = portfolioCoinsObj[coin.id] * coin.current_price;
+    resultsObj.push(obj);
+  }
+  resultsObj.sort(dynamicSort("value"));
+  console.debug("resultsObj", resultsObj);
+  threeDataPoints.push(resultsObj[0], resultsObj[1]);
+  otherVal = resultsObj
+    .slice(2)
+    .reduce((acc, nextVal) => acc + nextVal.value, 0);
+  threeDataPoints.push({
+    name: "other",
+    id: "other",
+    value: otherVal,
+    logo: "https://cdn.icon-icons.com/icons2/1570/PNG/512/3507738-account-balance-cash-iconoteka-money-payment-wallet_107677.png",
+  });
+  return threeDataPoints;
+};
+function dynamicSort(property) {
+  var sortOrder = 1;
+  if (property[0] === "-") {
+    sortOrder = -1;
+    property = property.substr(1);
+  }
+  return function (a, b) {
+    var result =
+      a[property] > b[property] ? -1 : a[property] < b[property] ? 1 : 0;
+    return result * sortOrder;
+  };
+}

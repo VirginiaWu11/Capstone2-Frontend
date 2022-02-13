@@ -9,31 +9,30 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import LaptopMacIcon from "@mui/icons-material/LaptopMac";
-import PhoneIcon from "@mui/icons-material/Phone";
-import TabletIcon from "@mui/icons-material/Tablet";
+
 import CardMedia from "@mui/material/CardMedia";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export const HoldingsDoughnut = (props) => {
+export const HoldingsDoughnut = ({ portfolioDonutData, currentTotalValue }) => {
   const theme = useTheme();
+  console.debug({ currentTotalValue });
 
   const data = {
     datasets: [
       {
-        data: [63, 15, 22],
+        data: portfolioDonutData.map((el) => el.value),
         backgroundColor: ["#3F51B5", "#e53935", "#FB8C00"],
         borderWidth: 8,
         borderColor: "#FFFFFF",
         hoverBorderColor: "#FFFFFF",
       },
     ],
-    labels: ["Bitcoin", "Ethereum", "Other"],
+    labels: portfolioDonutData.map((el) => el.name),
   };
 
   const options = {
-    animation: false,
+    animation: true,
     cutoutPercentage: 80,
     layout: { padding: 0 },
     legend: {
@@ -54,35 +53,35 @@ export const HoldingsDoughnut = (props) => {
     },
   };
 
-  const devices = [
+  const coinTypes = [
     {
-      title: "Bitcoin",
-      value: 63,
-      icon: LaptopMacIcon,
-      color: theme.palette.secondary.main,
-      image:
-        "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
+      title: portfolioDonutData[0]?.name,
+      value: ((portfolioDonutData[0]?.value / currentTotalValue) * 100).toFixed(
+        0
+      ),
+      color: "#3F51B5",
+      image: portfolioDonutData[0]?.logo,
     },
     {
-      title: "Ethereum",
-      value: 15,
-      icon: TabletIcon,
+      title: portfolioDonutData[1]?.name,
+      value: ((portfolioDonutData[1]?.value / currentTotalValue) * 100).toFixed(
+        0
+      ),
       color: "#E53935",
-      image:
-        "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
+      image: portfolioDonutData[1]?.logo,
     },
     {
-      title: "Other",
-      value: 23,
-      icon: PhoneIcon,
+      title: portfolioDonutData[2]?.name,
+      value: ((portfolioDonutData[2]?.value / currentTotalValue) * 100).toFixed(
+        0
+      ),
       color: "#FB8C00",
-      image:
-        "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
+      image: portfolioDonutData[2]?.logo,
     },
   ];
 
   return (
-    <Card {...props}>
+    <Card sx={{ height: "100%" }}>
       <CardHeader title="Holdings" />
       <Divider />
       <CardContent>
@@ -101,7 +100,7 @@ export const HoldingsDoughnut = (props) => {
             pt: 2,
           }}
         >
-          {devices.map(({ color, icon: Icon, image, title, value }) => (
+          {coinTypes.map(({ color, image, title, value }) => (
             <Box
               key={title}
               sx={{
@@ -109,7 +108,6 @@ export const HoldingsDoughnut = (props) => {
                 textAlign: "center",
               }}
             >
-              {/* <Icon color="action" /> */}
               <CardMedia
                 component="img"
                 sx={{

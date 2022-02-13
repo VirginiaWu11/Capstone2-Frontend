@@ -44,7 +44,6 @@ function App() {
   useEffect(
     function loadUserPortfolio() {
       async function getUserPortfolio() {
-        setInfoLoaded(false);
         try {
           let idsResp = await BackendApi.get_user_portfolio();
           setPortfolioCoins(idsResp);
@@ -54,7 +53,6 @@ function App() {
         }
       }
       getUserPortfolio();
-      setInfoLoaded(true);
     },
     [setPortfolioCoins, infoLoaded, setInfoLoaded]
   );

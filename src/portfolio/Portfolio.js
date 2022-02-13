@@ -17,6 +17,7 @@ const Portfolio = ({ portfolioCoins }) => {
   const [portfolioCoinsObj, setPortfolioCoinsObj] = useState({});
   const [infoLoaded, setInfoLoaded] = useState(false);
   const [portfolioCoinData, setPortfolioCoinData] = useState([]);
+  const [portfolioDonutData, setportfolioDonutData] = useState([]);
 
   const getCoinInfoCoinGecko = useCallback(async (portfolioCoins) => {
     let portfolioCoinsIds = portfolioCoins?.map((coin) => coin.coinGeckoId);
@@ -37,6 +38,9 @@ const Portfolio = ({ portfolioCoins }) => {
     if (Object.keys(portfolioCoinsObj).length !== 0 && coins.length !== 0) {
       setCurrentTotalValue(
         PortfolioService.currentTotalPortfolioValue(coins, portfolioCoinsObj)
+      );
+      setportfolioDonutData(
+        PortfolioService.portfolioDonutData(coins, portfolioCoinsObj)
       );
       setPortfolioCoinData(
         PortfolioService.addDateToData(
@@ -67,6 +71,7 @@ const Portfolio = ({ portfolioCoins }) => {
 
   if (!infoLoaded) return <LoadingSpinner />;
 
+  console.debug("portfolioDonutData", portfolioDonutData);
   return (
     <>
       <Box
@@ -112,7 +117,10 @@ const Portfolio = ({ portfolioCoins }) => {
               <PortfolioLineChart portfolioCoinData={portfolioCoinData} />
             </Grid>
             <Grid item xl={3} lg={4} md={6} xs={12}>
-              <HoldingsDoughnut sx={{ height: "100%" }} />
+              <HoldingsDoughnut
+                portfolioDonutData={portfolioDonutData}
+                currentTotalValue={currentTotalValue}
+              />
             </Grid>
             <Grid item xl={12} lg={12} md={12} xs={12}>
               <HoldingsTable
