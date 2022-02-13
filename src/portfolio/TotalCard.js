@@ -6,7 +6,7 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import MoneyIcon from "@mui/icons-material/Money";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 
 export const TotalCard = ({ title = "Title", amount = 0 }) => (
   <Card sx={{ height: "100%" }}>
@@ -28,7 +28,7 @@ export const TotalCard = ({ title = "Title", amount = 0 }) => (
               width: 56,
             }}
           >
-            <MoneyIcon />
+            <AccountBalanceWalletIcon />
           </Avatar>
         </Grid>
       </Grid>
