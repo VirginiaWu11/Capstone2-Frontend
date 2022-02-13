@@ -60,6 +60,7 @@ export default function SearchBar({ handleCoinModalOpen }) {
         loading={loading}
         renderInput={(params) => (
           <TextField
+            variant="filled"
             {...params}
             label="Search All Coins"
             onChange={debouncedChangeHandler}
