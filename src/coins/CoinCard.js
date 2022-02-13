@@ -72,7 +72,7 @@ const CoinCard = memo(({ coin, isPinned, handlePin, handleUnpin }) => {
             }}
           >
             <Tooltip title="Pin to Watchlist">
-              <PushPinOutlinedIcon />
+              <PushPinOutlinedIcon sx={{ transform: "rotate(0.20turn)" }} />
             </Tooltip>
           </IconButton>
         )}
