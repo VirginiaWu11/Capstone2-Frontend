@@ -24,6 +24,7 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import BackendApi from "./api";
 import StickyFooter from "./StickyFooter";
+import Grid from "@mui/material/Grid";
 
 export const TOKEN_STORAGE_ID = "coinWallet-token";
 
@@ -157,41 +158,51 @@ function App() {
           maxWidth="lg"
           fullWidth
         >
-          <DialogTitle id="alert-dialog-title">{clickedCoin.name}</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="dialog-description">
-              Market Cap:{" "}
-              <strong>{clickedCoin.market_cap?.toLocaleString()}</strong>
-            </DialogContentText>
-            <DialogContentText id="dialog-description">
-              Current Price:{" "}
+          <DialogTitle id="alert-dialog-title">
+            {clickedCoin.name}
+            <DialogContentText variant="h6">
+              Current Price:{" $"}
               <strong>{clickedCoin.current_price?.toLocaleString()}</strong>
             </DialogContentText>
-            <DialogContentText id="dialog-description">
-              24Hr Trading Volume:{" "}
-              <strong>{clickedCoin.total_volume?.toLocaleString()}</strong>
-            </DialogContentText>
-            <DialogContentText id="dialog-description">
-              Fully Diluted Valuation:{" "}
-              <strong>
-                {clickedCoin.fully_diluted_valuation?.toLocaleString()}
-              </strong>
-            </DialogContentText>
-            <DialogContentText id="dialog-description">
-              Circulating supply:{" "}
-              <strong>
-                {clickedCoin.circulating_supply?.toLocaleString()}
-              </strong>
-            </DialogContentText>
-            <DialogContentText id="dialog-description">
-              Total Supply:{" "}
-              <strong>{clickedCoin.total_supply?.toLocaleString()}</strong>
-            </DialogContentText>
-            <DialogContentText id="dialog-description">
-              Max Supply:{" "}
-              <strong>{clickedCoin.max_supply?.toLocaleString()}</strong>
-            </DialogContentText>
+          </DialogTitle>
+          <DialogContent>
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <DialogContentText id="dialog-description">
+                  Market Cap:{" $"}
+                  <strong>{clickedCoin.market_cap?.toLocaleString()}</strong>
+                </DialogContentText>
+
+                <DialogContentText id="dialog-description">
+                  24Hr Trading Volume:{" $"}
+                  <strong>{clickedCoin.total_volume?.toLocaleString()}</strong>
+                </DialogContentText>
+                <DialogContentText id="dialog-description">
+                  Fully Diluted Valuation:{" $"}
+                  <strong>
+                    {clickedCoin.fully_diluted_valuation?.toLocaleString()}
+                  </strong>
+                </DialogContentText>
+              </Grid>
+              <Grid item xs={6}>
+                <DialogContentText id="dialog-description">
+                  Circulating supply:{" "}
+                  <strong>
+                    {clickedCoin.circulating_supply?.toLocaleString()}
+                  </strong>
+                </DialogContentText>
+                <DialogContentText id="dialog-description">
+                  Total Supply:{" "}
+                  <strong>{clickedCoin.total_supply?.toLocaleString()}</strong>
+                </DialogContentText>
+                <DialogContentText id="dialog-description">
+                  Max Supply:{" "}
+                  <strong>{clickedCoin.max_supply?.toLocaleString()}</strong>
+                </DialogContentText>
+              </Grid>
+            </Grid>
           </DialogContent>
+
           <ChartDaysToggleButtons />
           <DialogContent>
             {coinData.prices ? (
