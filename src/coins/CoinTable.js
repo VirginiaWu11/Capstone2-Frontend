@@ -88,7 +88,7 @@ const columns = [
 const CoinTable = ({ coins, handleCoinModalOpen }) => {
   return (
     <Paper sx={{ width: "100%", overflow: "hidden", margin: 2 }}>
-      <TableContainer sx={{ maxHeight: 700 }}>
+      <TableContainer sx={{ maxHeight: 665 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
