@@ -1,10 +1,9 @@
 import { Box, Card, CardContent, CardHeader, Divider } from "@mui/material";
-import { tempCoinData } from "../tempCoinData";
 import { CoinChart } from "../coins/CoinChart";
 
-export const PortfolioLineChart = (props) => {
+export const PortfolioLineChart = ({ portfolioCoinData }) => {
   return (
-    <Card {...props}>
+    <Card>
       <CardHeader title="Portfolio Value" />
       <Divider />
       <CardContent>
@@ -14,10 +13,7 @@ export const PortfolioLineChart = (props) => {
             position: "relative",
           }}
         >
-          <CoinChart
-            coinData={tempCoinData.prices}
-            maintainAspectRatio={false}
-          />
+          <CoinChart coinData={portfolioCoinData} maintainAspectRatio={false} />
         </Box>
       </CardContent>
     </Card>

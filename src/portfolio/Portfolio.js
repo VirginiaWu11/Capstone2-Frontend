@@ -16,6 +16,7 @@ const Portfolio = ({ portfolioCoins }) => {
   const [hoursDifferenceValue, setHoursDifferenceValue] = useState();
   const [portfolioCoinsObj, setPortfolioCoinsObj] = useState({});
   const [infoLoaded, setInfoLoaded] = useState(false);
+  const [portfolioCoinData, setPortfolioCoinData] = useState([]);
 
   const getCoinInfoCoinGecko = useCallback(async (portfolioCoins) => {
     let portfolioCoinsIds = portfolioCoins?.map((coin) => coin.coinGeckoId);
@@ -33,9 +34,14 @@ const Portfolio = ({ portfolioCoins }) => {
   }, [getCoinInfoCoinGecko, portfolioCoins]);
 
   useEffect(() => {
-    if (Object.keys(portfolioCoinsObj).length !== 0) {
+    if (Object.keys(portfolioCoinsObj).length !== 0 && coins.length !== 0) {
       setCurrentTotalValue(
         PortfolioService.currentTotalPortfolioValue(coins, portfolioCoinsObj)
+      );
+      setPortfolioCoinData(
+        PortfolioService.addDateToData(
+          PortfolioService.portfolioCoinData(coins, portfolioCoinsObj)
+        )
       );
       setHoursDifferenceValue({
         one: PortfolioService.totalPortfolioValueDifference(
@@ -101,7 +107,7 @@ const Portfolio = ({ portfolioCoins }) => {
               />
             </Grid>
             <Grid item xl={9} lg={8} md={6} xs={12}>
-              <PortfolioLineChart />
+              <PortfolioLineChart portfolioCoinData={portfolioCoinData} />
             </Grid>
             <Grid item xl={3} lg={4} md={6} xs={12}>
               <HoldingsDoughnut sx={{ height: "100%" }} />

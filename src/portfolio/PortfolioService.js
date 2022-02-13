@@ -51,3 +51,21 @@ export const arrayToObject = (portfolioCoins) => {
   }
   return obj;
 };
+
+export const portfolioCoinData = (coins, portfolioCoinsObj) => {
+  let data = new Array(coins[0].sparkline_in_7d.price.length).fill(0);
+  for (let coin of coins) {
+    data = data.map(
+      (el, i) => el + coin.sparkline_in_7d.price[i] * portfolioCoinsObj[coin.id]
+    );
+  }
+  return data;
+};
+
+export const addDateToData = (data) => {
+  data = data.map((el, i) => [
+    new Date().getTime() - new Date().getMinutes() * 60000 * i,
+    el,
+  ]);
+  return data;
+};
