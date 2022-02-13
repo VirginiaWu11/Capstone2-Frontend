@@ -13,7 +13,7 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 export const ChangeCard = ({
   title = "Title",
   amount = 0,
-  percent = "0.01%",
+  percent = "0.01",
   time = "24hours ago",
 }) => (
   <Card sx={{ height: "100%" }}>
@@ -65,7 +65,7 @@ export const ChangeCard = ({
           }}
           variant="body2"
         >
-          {percent}
+          {`${percent.toLocaleString()} %`}
         </Typography>
         <Typography color="textSecondary" variant="caption">
           Since {time}

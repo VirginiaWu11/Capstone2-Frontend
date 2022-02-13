@@ -7,7 +7,7 @@ import { useUserContext } from "./auth/UserContext";
 import { Route, Routes } from "react-router-dom";
 import Home from "./Home";
 import CoinList from "./coins/CoinList";
-import AssetList from "./portfolio/Portfolio";
+import Portfolio from "./portfolio/Portfolio";
 import SigninForm from "./auth/SigninForm";
 import SignupForm from "./auth/SignupForm";
 import ProfileForm from "./ProfileForm";
@@ -31,7 +31,7 @@ export const TOKEN_STORAGE_ID = "coinWallet-token";
 
 function App() {
   console.debug("App rendered");
-  const { infoLoaded } = useUserContext();
+  const { infoLoaded, setInfoLoaded } = useUserContext();
   const [coinModalOpen, setCoinModalOpen] = useState(false);
   const [clickedCoin, setClickedCoin] = useState({});
   // const [isLoading, setIsLoading] = useState(true);
@@ -44,6 +44,7 @@ function App() {
   useEffect(
     function loadUserPortfolio() {
       async function getUserPortfolio() {
+        setInfoLoaded(false);
         try {
           let idsResp = await BackendApi.get_user_portfolio();
           setPortfolioCoins(idsResp);
@@ -53,8 +54,9 @@ function App() {
         }
       }
       getUserPortfolio();
+      setInfoLoaded(true);
     },
-    [setPortfolioCoins, infoLoaded]
+    [setPortfolioCoins, infoLoaded, setInfoLoaded]
   );
 
   useEffect(
@@ -400,7 +402,12 @@ function App() {
                 path="/portfolio"
                 element={
                   <PrivateRoute>
-                    <AssetList portfolioIds={watchlistIds} />
+                    {portfolioCoins ? (
+                      <Portfolio
+                        portfolioIds={watchlistIds}
+                        portfolioCoins={portfolioCoins}
+                      />
+                    ) : null}
                   </PrivateRoute>
                 }
               />
