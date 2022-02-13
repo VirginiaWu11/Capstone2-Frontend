@@ -161,41 +161,83 @@ function App() {
           <DialogTitle id="alert-dialog-title">
             {clickedCoin.name}
             <DialogContentText variant="h6">
-              Current Price:{" $"}
-              <strong>{clickedCoin.current_price?.toLocaleString()}</strong>
+              Current Price:
+              <strong>
+                {" $"}
+                {clickedCoin.current_price?.toLocaleString()}
+              </strong>
             </DialogContentText>
           </DialogTitle>
           <DialogContent>
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <DialogContentText id="dialog-description">
-                  Market Cap:{" $"}
-                  <strong>{clickedCoin.market_cap?.toLocaleString()}</strong>
+            <Grid
+              container
+              spacing={{
+                xs: 0,
+                sm: 2,
+                md: 5,
+              }}
+            >
+              <Grid item /* xs={6} */ xl={4} lg={4} sm={6} xs={12}>
+                <DialogContentText
+                  id="dialog-description"
+                  sx={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  Market Cap:
+                  <strong>
+                    {" $"}
+                    {clickedCoin.market_cap?.toLocaleString()}
+                  </strong>
                 </DialogContentText>
 
-                <DialogContentText id="dialog-description">
-                  24Hr Trading Volume:{" $"}
-                  <strong>{clickedCoin.total_volume?.toLocaleString()}</strong>
-                </DialogContentText>
-                <DialogContentText id="dialog-description">
-                  Fully Diluted Valuation:{" $"}
+                <DialogContentText
+                  id="dialog-description"
+                  sx={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  24Hr Trading Volume:
                   <strong>
+                    {" $"}
+                    {clickedCoin.total_volume?.toLocaleString()}
+                  </strong>
+                </DialogContentText>
+                <DialogContentText
+                  id="dialog-description"
+                  sx={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  Fully Diluted Valuation:
+                  <strong>
+                    {" $"}
                     {clickedCoin.fully_diluted_valuation?.toLocaleString()}
                   </strong>
                 </DialogContentText>
               </Grid>
-              <Grid item xs={6}>
-                <DialogContentText id="dialog-description">
+              <Grid
+                item
+                /* xs={6} */
+                xl={4}
+                lg={4}
+                sm={6}
+                xs={12}
+              >
+                <DialogContentText
+                  id="dialog-description"
+                  sx={{ display: "flex", justifyContent: "space-between" }}
+                >
                   Circulating supply:{" "}
                   <strong>
                     {clickedCoin.circulating_supply?.toLocaleString()}
                   </strong>
                 </DialogContentText>
-                <DialogContentText id="dialog-description">
+                <DialogContentText
+                  id="dialog-description"
+                  sx={{ display: "flex", justifyContent: "space-between" }}
+                >
                   Total Supply:{" "}
                   <strong>{clickedCoin.total_supply?.toLocaleString()}</strong>
                 </DialogContentText>
-                <DialogContentText id="dialog-description">
+                <DialogContentText
+                  id="dialog-description"
+                  sx={{ display: "flex", justifyContent: "space-between" }}
+                >
                   Max Supply:{" "}
                   <strong>{clickedCoin.max_supply?.toLocaleString()}</strong>
                 </DialogContentText>
