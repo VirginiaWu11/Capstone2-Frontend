@@ -82,6 +82,10 @@ function App() {
     return watchlistIds?.includes(id);
   };
 
+  const isOnPortfolio = (id) => {
+    return portfolioCoins?.map((element) => element.coinGeckoId)?.includes(id);
+  };
+
   const handleCoinModalOpen = useCallback(async (coin) => {
     setClickedCoin(coin);
     setCoinModalOpen(true);
@@ -350,9 +354,7 @@ function App() {
               }
               clickedCoin={clickedCoin}
               isPinned={isPinned(clickedCoin.id)}
-              isOnPortfolio={portfolioCoins
-                ?.map((element) => element.coinGeckoId)
-                ?.includes(clickedCoin.id)}
+              isOnPortfolio={isOnPortfolio(clickedCoin.id)}
             />
           ) : null}
           <PortfolioForm
@@ -384,6 +386,9 @@ function App() {
                       isPinned={isPinned}
                       handleUnpin={handleUnpin}
                       handlePin={handlePin}
+                      isOnPortfolio={isOnPortfolio}
+                      removeFromPortfolio={removeFromPortfolio}
+                      handlePortfolioModalOpen={handlePortfolioModalOpen}
                       watchlistIds={watchlistIds}
                       handleCoinModalOpen={handleCoinModalOpen}
                     />

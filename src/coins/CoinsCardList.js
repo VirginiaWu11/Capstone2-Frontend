@@ -5,7 +5,16 @@ import { CardActionArea } from "@mui/material";
 import Button from "@mui/material/Button";
 
 const CoinsCardList = memo(
-  ({ coins, handleCoinModalOpen, isPinned, handlePin, handleUnpin }) => {
+  ({
+    coins,
+    handleCoinModalOpen,
+    isPinned,
+    handlePin,
+    handleUnpin,
+    isOnPortfolio,
+    removeFromPortfolio,
+    handlePortfolioModalOpen,
+  }) => {
     console.debug("CoinsCardList rendered");
     return (
       <div>
@@ -30,6 +39,9 @@ const CoinsCardList = memo(
                   isPinned={isPinned}
                   handlePin={handlePin}
                   handleUnpin={handleUnpin}
+                  isOnPortfolio={isOnPortfolio}
+                  removeFromPortfolio={removeFromPortfolio}
+                  handlePortfolioModalOpen={handlePortfolioModalOpen}
                 />{" "}
               </CardActionArea>
             </Grid>

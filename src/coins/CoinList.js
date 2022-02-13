@@ -17,7 +17,16 @@ import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 
 const CoinList = memo(
-  ({ watchlistIds, handleCoinModalOpen, isPinned, handlePin, handleUnpin }) => {
+  ({
+    watchlistIds,
+    handleCoinModalOpen,
+    isPinned,
+    handlePin,
+    handleUnpin,
+    isOnPortfolio,
+    removeFromPortfolio,
+    handlePortfolioModalOpen,
+  }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [coins, setCoins] = useState([]);
     const [coinsToggleView, setCoinsToggleView] = useState("allcoins");
@@ -173,6 +182,9 @@ const CoinList = memo(
                 isPinned={isPinned}
                 handlePin={handlePin}
                 handleUnpin={handleUnpin}
+                isOnPortfolio={isOnPortfolio}
+                removeFromPortfolio={removeFromPortfolio}
+                handlePortfolioModalOpen={handlePortfolioModalOpen}
                 coins={coins}
                 watchlistIds={watchlistIds}
                 handleCoinModalOpen={handleCoinModalOpen}
