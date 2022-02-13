@@ -25,6 +25,7 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import BackendApi from "./api";
 import StickyFooter from "./StickyFooter";
 import Grid from "@mui/material/Grid";
+import PortfolioForm from "./portfolio/PortfolioForm";
 
 export const TOKEN_STORAGE_ID = "coinWallet-token";
 
@@ -36,7 +37,8 @@ function App() {
   // const [isLoading, setIsLoading] = useState(true);
   const [watchlistIds, setWatchlistIds] = useState();
   const [portfolioCoins, setPortfolioCoins] = useState();
-
+  const [portfolioModalopen, setPortfolioModalOpen] = useState(false);
+  console.debug("portfolioModalopen:", portfolioModalopen);
   useEffect(
     function loadUserPortfolio() {
       async function getUserPortfolio() {
@@ -74,6 +76,10 @@ function App() {
     watchlistIds
   );
 
+  const isPinned = (id) => {
+    return watchlistIds?.includes(id);
+  };
+
   const handleCoinModalOpen = useCallback(async (coin) => {
     setClickedCoin(coin);
     setCoinModalOpen(true);
@@ -81,19 +87,37 @@ function App() {
 
   const handleCoinModalClose = useCallback(() => setCoinModalOpen(false), []);
 
-  const handlePin = useCallback(() => {
-    BackendApi.pin(clickedCoin.id);
-    setWatchlistIds([...watchlistIds, clickedCoin.id]);
-    handleCoinModalClose();
-  }, [clickedCoin.id, handleCoinModalClose, setWatchlistIds, watchlistIds]);
+  const handlePin = useCallback(
+    (id) => {
+      BackendApi.pin(id);
+      setWatchlistIds([...watchlistIds, id]);
+      handleCoinModalClose();
+    },
+    [handleCoinModalClose, setWatchlistIds, watchlistIds]
+  );
 
-  const handleUnpin = useCallback(() => {
-    BackendApi.unpin(clickedCoin.id);
-    setWatchlistIds(
-      watchlistIds.filter((watchlistId) => watchlistId !== clickedCoin.id)
-    );
-    handleCoinModalClose();
-  }, [clickedCoin.id, handleCoinModalClose, setWatchlistIds, watchlistIds]);
+  const handleUnpin = useCallback(
+    (id) => {
+      BackendApi.unpin(id);
+      setWatchlistIds(watchlistIds.filter((watchlistId) => watchlistId !== id));
+      handleCoinModalClose();
+    },
+    [handleCoinModalClose, setWatchlistIds, watchlistIds]
+  );
+
+  const handlePortfolioModalOpen = () => {
+    setPortfolioModalOpen(true, () => {
+      console.log("The name has updated and component re-rendered");
+    });
+  };
+  const closeCoinModalOpenPortfolioModal = () => {
+    setCoinModalOpen(false);
+    setPortfolioModalOpen(true);
+  };
+
+  const handlePortfolioModalClose = () => {
+    setPortfolioModalOpen(false);
+  };
 
   const removeFromPortfolio = useCallback(() => {
     BackendApi.removeAssets(clickedCoin.id);
@@ -105,171 +129,184 @@ function App() {
 
   // console.debug("Modal in App:", { clickedCoin, isLoading }, { open });
 
-  const CoinModal = memo(({ clickedCoin, isPinned, isOnPortfolio }) => {
-    const [chartDaysView, setChartDaysView] = useState(7);
-    const [coinData, setCoinData] = useState([]);
+  const CoinModal = memo(
+    ({
+      clickedCoin,
+      isPinned,
+      isOnPortfolio,
+      closeCoinModalOpenPortfolioModal,
+    }) => {
+      const [chartDaysView, setChartDaysView] = useState(7);
+      const [coinData, setCoinData] = useState([]);
 
-    useEffect(() => {
-      const getCoinMarketData = async (id, days) => {
-        const resp = await CoinGeckoApi.getCoinMarketChart(id, days);
-        setCoinData(resp);
+      useEffect(() => {
+        const getCoinMarketData = async (id, days) => {
+          const resp = await CoinGeckoApi.getCoinMarketChart(id, days);
+          setCoinData(resp);
+        };
+        if (clickedCoin.id) {
+          getCoinMarketData(clickedCoin.id, chartDaysView);
+        }
+      }, [clickedCoin.id, chartDaysView]);
+
+      const ChartDaysToggleButtons = () => {
+        const handleChange = (event, nextView) => {
+          setChartDaysView(nextView);
+        };
+
+        return (
+          <ToggleButtonGroup
+            value={chartDaysView}
+            exclusive
+            onChange={handleChange}
+            sx={{ ml: 1, mt: 2 }}
+          >
+            <ToggleButton value={7} aria-label="list">
+              7 Days
+            </ToggleButton>
+            <ToggleButton value={14} aria-label="module">
+              14 Days
+            </ToggleButton>
+            <ToggleButton value={30} aria-label="module">
+              30 Days
+            </ToggleButton>
+            <ToggleButton value={90} aria-label="module">
+              90 Days
+            </ToggleButton>
+          </ToggleButtonGroup>
+        );
       };
-      if (clickedCoin.id) {
-        getCoinMarketData(clickedCoin.id, chartDaysView);
-      }
-    }, [clickedCoin.id, chartDaysView]);
 
-    const ChartDaysToggleButtons = () => {
-      const handleChange = (event, nextView) => {
-        setChartDaysView(nextView);
-      };
-
+      console.debug("CoinModal Rendered");
       return (
-        <ToggleButtonGroup
-          value={chartDaysView}
-          exclusive
-          onChange={handleChange}
-          sx={{ ml: 1, mt: 2 }}
-        >
-          <ToggleButton value={7} aria-label="list">
-            7 Days
-          </ToggleButton>
-          <ToggleButton value={14} aria-label="module">
-            14 Days
-          </ToggleButton>
-          <ToggleButton value={30} aria-label="module">
-            30 Days
-          </ToggleButton>
-          <ToggleButton value={90} aria-label="module">
-            90 Days
-          </ToggleButton>
-        </ToggleButtonGroup>
+        <div>
+          <Dialog
+            open={coinModalOpen}
+            onClose={handleCoinModalClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+            maxWidth="lg"
+            fullWidth
+          >
+            <DialogTitle id="alert-dialog-title">
+              {clickedCoin.name}
+              <DialogContentText variant="h6">
+                Current Price:
+                <strong>
+                  {" $"}
+                  {clickedCoin.current_price?.toLocaleString()}
+                </strong>
+              </DialogContentText>
+            </DialogTitle>
+            <DialogContent>
+              <Grid
+                container
+                spacing={{
+                  xs: 0,
+                  sm: 2,
+                  md: 5,
+                }}
+              >
+                <Grid item xl={4} lg={4} sm={6} xs={12}>
+                  <DialogContentText
+                    id="dialog-description"
+                    sx={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    Market Cap:
+                    <strong>
+                      {" $"}
+                      {clickedCoin.market_cap?.toLocaleString()}
+                    </strong>
+                  </DialogContentText>
+
+                  <DialogContentText
+                    id="dialog-description"
+                    sx={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    24Hr Trading Volume:
+                    <strong>
+                      {" $"}
+                      {clickedCoin.total_volume?.toLocaleString()}
+                    </strong>
+                  </DialogContentText>
+                  <DialogContentText
+                    id="dialog-description"
+                    sx={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    Fully Diluted Valuation:
+                    <strong>
+                      {clickedCoin.fully_diluted_valuation
+                        ? " $" +
+                          clickedCoin.fully_diluted_valuation?.toLocaleString()
+                        : null}
+                    </strong>
+                  </DialogContentText>
+                </Grid>
+                <Grid item xl={4} lg={4} sm={6} xs={12}>
+                  <DialogContentText
+                    id="dialog-description"
+                    sx={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    Circulating supply:{" "}
+                    <strong>
+                      {clickedCoin.circulating_supply?.toLocaleString()}
+                    </strong>
+                  </DialogContentText>
+                  <DialogContentText
+                    id="dialog-description"
+                    sx={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    Total Supply:{" "}
+                    <strong>
+                      {clickedCoin.total_supply?.toLocaleString()}
+                    </strong>
+                  </DialogContentText>
+                  <DialogContentText
+                    id="dialog-description"
+                    sx={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    Max Supply:{" "}
+                    <strong>{clickedCoin.max_supply?.toLocaleString()}</strong>
+                  </DialogContentText>
+                </Grid>
+              </Grid>
+            </DialogContent>
+
+            <ChartDaysToggleButtons />
+            <DialogContent>
+              {coinData.prices ? (
+                <CoinChart
+                  coinData={coinData.prices}
+                  maintainAspectRatio={true}
+                />
+              ) : null}
+            </DialogContent>
+
+            <DialogActions>
+              {isPinned ? (
+                <Button onClick={() => handleUnpin(clickedCoin.id)}>
+                  Unpin from Watchlist
+                </Button>
+              ) : (
+                <Button onClick={() => handlePin(clickedCoin.id)}>
+                  Pin to Watchlist
+                </Button>
+              )}
+              {isOnPortfolio ? (
+                <Button onClick={removeFromPortfolio} autoFocus>
+                  Remove from Portfolio
+                </Button>
+              ) : (
+                <Button onClick={closeCoinModalOpenPortfolioModal} autoFocus>
+                  Add to Portfolio
+                </Button>
+              )}
+            </DialogActions>
+          </Dialog>
+        </div>
       );
-    };
-
-    console.debug("CoinModal Rendered");
-    return (
-      <div>
-        <Dialog
-          open={coinModalOpen}
-          onClose={handleCoinModalClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-          maxWidth="lg"
-          fullWidth
-        >
-          <DialogTitle id="alert-dialog-title">
-            {clickedCoin.name}
-            <DialogContentText variant="h6">
-              Current Price:
-              <strong>
-                {" $"}
-                {clickedCoin.current_price?.toLocaleString()}
-              </strong>
-            </DialogContentText>
-          </DialogTitle>
-          <DialogContent>
-            <Grid
-              container
-              spacing={{
-                xs: 0,
-                sm: 2,
-                md: 5,
-              }}
-            >
-              <Grid item xl={4} lg={4} sm={6} xs={12}>
-                <DialogContentText
-                  id="dialog-description"
-                  sx={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  Market Cap:
-                  <strong>
-                    {" $"}
-                    {clickedCoin.market_cap?.toLocaleString()}
-                  </strong>
-                </DialogContentText>
-
-                <DialogContentText
-                  id="dialog-description"
-                  sx={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  24Hr Trading Volume:
-                  <strong>
-                    {" $"}
-                    {clickedCoin.total_volume?.toLocaleString()}
-                  </strong>
-                </DialogContentText>
-                <DialogContentText
-                  id="dialog-description"
-                  sx={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  Fully Diluted Valuation:
-                  <strong>
-                    {clickedCoin.fully_diluted_valuation
-                      ? " $" +
-                        clickedCoin.fully_diluted_valuation?.toLocaleString()
-                      : null}
-                  </strong>
-                </DialogContentText>
-              </Grid>
-              <Grid item xl={4} lg={4} sm={6} xs={12}>
-                <DialogContentText
-                  id="dialog-description"
-                  sx={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  Circulating supply:{" "}
-                  <strong>
-                    {clickedCoin.circulating_supply?.toLocaleString()}
-                  </strong>
-                </DialogContentText>
-                <DialogContentText
-                  id="dialog-description"
-                  sx={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  Total Supply:{" "}
-                  <strong>{clickedCoin.total_supply?.toLocaleString()}</strong>
-                </DialogContentText>
-                <DialogContentText
-                  id="dialog-description"
-                  sx={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  Max Supply:{" "}
-                  <strong>{clickedCoin.max_supply?.toLocaleString()}</strong>
-                </DialogContentText>
-              </Grid>
-            </Grid>
-          </DialogContent>
-
-          <ChartDaysToggleButtons />
-          <DialogContent>
-            {coinData.prices ? (
-              <CoinChart
-                coinData={coinData.prices}
-                maintainAspectRatio={true}
-              />
-            ) : null}
-          </DialogContent>
-
-          <DialogActions>
-            {isPinned ? (
-              <Button onClick={handleUnpin}>Unpin from Watchlist</Button>
-            ) : (
-              <Button onClick={handlePin}>Pin to Watchlist</Button>
-            )}
-            {isOnPortfolio ? (
-              <Button onClick={removeFromPortfolio} autoFocus>
-                Remove from Portfolio
-              </Button>
-            ) : (
-              <Button onClick={handleCoinModalClose} autoFocus>
-                Add to Portfolio
-              </Button>
-            )}
-          </DialogActions>
-        </Dialog>
-      </div>
-    );
-  });
+    }
+  );
 
   if (!infoLoaded) return <LoadingSpinner />;
 
@@ -286,14 +323,20 @@ function App() {
           <NavBar handleCoinModalOpen={handleCoinModalOpen} />
           {clickedCoin ? (
             <CoinModal
+              closeCoinModalOpenPortfolioModal={
+                closeCoinModalOpenPortfolioModal
+              }
               clickedCoin={clickedCoin}
-              isPinned={watchlistIds?.includes(clickedCoin.id)}
+              isPinned={isPinned(clickedCoin.id)}
               isOnPortfolio={portfolioCoins
                 ?.map((element) => element.coinGeckoId)
                 ?.includes(clickedCoin.id)}
             />
           ) : null}
-
+          <PortfolioForm
+            portfolioModalopen={portfolioModalopen}
+            handlePortfolioModalClose={handlePortfolioModalClose}
+          />
           <Box sx={{ flexGrow: 1 }}>
             <Routes>
               <Route exact path="/" element={<Home />} />
@@ -314,6 +357,9 @@ function App() {
                 element={
                   <PrivateRoute>
                     <CoinList
+                      isPinned={isPinned}
+                      handleUnpin={handleUnpin}
+                      handlePin={handlePin}
                       watchlistIds={watchlistIds}
                       handleCoinModalOpen={handleCoinModalOpen}
                     />
