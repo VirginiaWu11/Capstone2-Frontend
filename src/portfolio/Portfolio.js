@@ -40,7 +40,9 @@ const Portfolio = ({ portfolioCoins }) => {
       );
       setPortfolioCoinData(
         PortfolioService.addDateToData(
-          PortfolioService.portfolioCoinData(coins, portfolioCoinsObj)
+          PortfolioService.portfolioCoinData(coins, portfolioCoinsObj),
+          coins,
+          portfolioCoinsObj
         )
       );
       setHoursDifferenceValue({

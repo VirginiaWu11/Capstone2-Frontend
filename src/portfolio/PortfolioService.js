@@ -62,10 +62,15 @@ export const portfolioCoinData = (coins, portfolioCoinsObj) => {
   return data;
 };
 
-export const addDateToData = (data) => {
-  data = data.map((el, i) => [
-    new Date().getTime() - new Date().getMinutes() * 60000 * i,
-    el,
-  ]);
+export const addDateToData = (data, coins, portfolioCoinsObj) => {
+  let currentTotalValue = currentTotalPortfolioValue(coins, portfolioCoinsObj);
+  let d = new Date();
+  data.reverse();
+  data = data.map((el, i) => {
+    d.setHours(d.getHours() - 1);
+    return [d.getTime(), el];
+  });
+  data.reverse();
+  data.push([new Date(), currentTotalValue]);
   return data;
 };
