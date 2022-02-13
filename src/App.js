@@ -177,7 +177,7 @@ function App() {
                 md: 5,
               }}
             >
-              <Grid item /* xs={6} */ xl={4} lg={4} sm={6} xs={12}>
+              <Grid item xl={4} lg={4} sm={6} xs={12}>
                 <DialogContentText
                   id="dialog-description"
                   sx={{ display: "flex", justifyContent: "space-between" }}
@@ -205,19 +205,14 @@ function App() {
                 >
                   Fully Diluted Valuation:
                   <strong>
-                    {" $"}
-                    {clickedCoin.fully_diluted_valuation?.toLocaleString()}
+                    {clickedCoin.fully_diluted_valuation
+                      ? " $" +
+                        clickedCoin.fully_diluted_valuation?.toLocaleString()
+                      : null}
                   </strong>
                 </DialogContentText>
               </Grid>
-              <Grid
-                item
-                /* xs={6} */
-                xl={4}
-                lg={4}
-                sm={6}
-                xs={12}
-              >
+              <Grid item xl={4} lg={4} sm={6} xs={12}>
                 <DialogContentText
                   id="dialog-description"
                   sx={{ display: "flex", justifyContent: "space-between" }}
