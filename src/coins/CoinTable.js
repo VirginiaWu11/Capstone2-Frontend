@@ -107,9 +107,9 @@ const CoinTable = ({ coins, handleCoinModalOpen }) => {
                   hover
                   role="checkbox"
                   tabIndex={-1}
+                  sx={{ cursor: "pointer" }}
                   onClick={() => {
                     handleCoinModalOpen(row);
-                    // setClickedCoin(row);
                   }}
                 >
                   {columns.map((column) => {
