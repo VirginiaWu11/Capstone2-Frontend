@@ -113,15 +113,24 @@ const Portfolio = ({ portfolioCoins }) => {
                 time="7 days ago"
               />
             </Grid>
-            <Grid item xl={9} lg={8} md={6} xs={12}>
-              <PortfolioLineChart portfolioCoinData={portfolioCoinData} />
-            </Grid>
-            <Grid item xl={3} lg={4} md={6} xs={12}>
-              <HoldingsDoughnut
-                portfolioDonutData={portfolioDonutData}
-                currentTotalValue={currentTotalValue}
-              />
-            </Grid>
+            {coins.length >= 3 ? (
+              <Grid item xl={9} lg={8} md={6} xs={12}>
+                <PortfolioLineChart portfolioCoinData={portfolioCoinData} />
+              </Grid>
+            ) : (
+              <Grid item xl={12} lg={12} md={12} xs={12}>
+                <PortfolioLineChart portfolioCoinData={portfolioCoinData} />
+              </Grid>
+            )}
+            {console.debug("port1", portfolioCoinData.length)}
+            {coins.length >= 3 && (
+              <Grid item xl={3} lg={4} md={6} xs={12}>
+                <HoldingsDoughnut
+                  portfolioDonutData={portfolioDonutData}
+                  currentTotalValue={currentTotalValue}
+                />
+              </Grid>
+            )}
             <Grid item xl={12} lg={12} md={12} xs={12}>
               <HoldingsTable
                 portfolioCoinsObj={portfolioCoinsObj}

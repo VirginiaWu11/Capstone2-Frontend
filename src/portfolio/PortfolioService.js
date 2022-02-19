@@ -1,3 +1,5 @@
+import walletIconImage from "../images/walletIcon.png";
+
 export const currentTotalPortfolioValue = (coins, portfolioCoinsObj) => {
   let sum = 0;
   for (let coin of coins) {
@@ -99,7 +101,7 @@ export const portfolioDonutData = (coins, portfolioCoinsObj) => {
     name: "other",
     id: "other",
     value: otherVal,
-    logo: "https://cdn.icon-icons.com/icons2/1570/PNG/512/3507738-account-balance-cash-iconoteka-money-payment-wallet_107677.png",
+    logo: walletIconImage,
   });
   return threeDataPoints;
 };
