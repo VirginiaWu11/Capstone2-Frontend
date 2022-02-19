@@ -38,11 +38,11 @@ export default function SignupForm() {
 
   const formik = useFormik({
     initialValues: {
-      username: "123abc",
-      password: "111111",
-      firstName: "123",
-      lastName: "abc",
-      email: "123@abc.com",
+      username: "",
+      password: "",
+      firstName: "",
+      lastName: "",
+      email: "",
     },
     onSubmit: async (values) => {
       let result = await signup(values);
