@@ -40,7 +40,7 @@ export default function Home() {
             }}
           >
             <Typography component="h1" variant="h2">
-              CoinPortfolio
+              Coin Portfolio
             </Typography>
             <br />
             <Typography component="h2" variant="h5">

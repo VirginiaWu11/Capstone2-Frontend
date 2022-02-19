@@ -152,7 +152,7 @@ const NavBar = ({ handleCoinModalOpen }) => {
       <>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
           <Button size="large" component={Link} to="/" color="inherit">
-            CoinPortfolio
+            Coin Portfolio
           </Button>
         </Typography>
         <Tabs
