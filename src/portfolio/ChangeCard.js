@@ -32,7 +32,7 @@ export const ChangeCard = ({
               </Typography>
             ) : (
               <Typography color="error.main" variant="h4">
-                {" $" + amount.toLocaleString()}
+                -{" $" + Math.abs(amount).toLocaleString()}
               </Typography>
             )}
           </Grid>
@@ -74,7 +74,7 @@ export const ChangeCard = ({
             }}
             variant="body2"
           >
-            {`${percent.toLocaleString()} %`}
+            {`${Math.abs(percent).toLocaleString()} %`}
           </Typography>
           <Typography color="textSecondary" variant="caption">
             Since {time}
