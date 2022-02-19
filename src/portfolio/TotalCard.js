@@ -17,7 +17,7 @@ export const TotalCard = ({ title = "Title", amount = 0 }) => (
             {title}
           </Typography>
           <Typography color="textPrimary" variant="h4">
-            {amount.toLocaleString()}
+            {"$ " + amount.toLocaleString()}
           </Typography>
         </Grid>
         <Grid item>
