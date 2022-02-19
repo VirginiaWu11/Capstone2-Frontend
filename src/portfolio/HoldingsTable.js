@@ -3,7 +3,6 @@ import { DataGrid } from "@mui/x-data-grid";
 import CardMedia from "@mui/material/CardMedia";
 import { CardHeader } from "@mui/material";
 import { Card } from "@mui/material";
-import PushPinOutlinedIcon from "@mui/icons-material/PushPinOutlined";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
@@ -123,14 +122,6 @@ export default function HoldingsTable({
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
-        actions={[
-          {
-            icon: PushPinOutlinedIcon,
-            tooltip: "Delete User",
-            onClick: (event, rowData) =>
-              console.log("You want to delete ", rowData),
-          },
-        ]}
       />
     </div>
   );
