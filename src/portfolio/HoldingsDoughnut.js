@@ -16,7 +16,10 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 export const HoldingsDoughnut = ({ portfolioDonutData, currentTotalValue }) => {
   const theme = useTheme();
-  console.debug({ currentTotalValue });
+
+  if (portfolioDonutData.some((e) => e === undefined)) {
+    return <></>;
+  }
 
   const data = {
     datasets: [
