@@ -115,7 +115,7 @@ const NavBar = ({ handleCoinModalOpen }) => {
           <>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               <Button size="large" component={Link} to="/" color="inherit">
-                CoinWallet
+                CoinPortfolio
               </Button>
             </Typography>
 
@@ -125,7 +125,7 @@ const NavBar = ({ handleCoinModalOpen }) => {
           <>
             <Typography variant="h6" component="div">
               <Button size="large" component={Link} to="/" color="inherit">
-                CoinWallet
+                CoinPortfolio
               </Button>
             </Typography>
             <Box sx={{ m: "auto" }}>
@@ -152,7 +152,7 @@ const NavBar = ({ handleCoinModalOpen }) => {
       <>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
           <Button size="large" component={Link} to="/" color="inherit">
-            CoinWallet
+            CoinPortfolio
           </Button>
         </Typography>
         <Tabs
