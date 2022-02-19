@@ -19,7 +19,6 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 
 const NavBar = ({ handleCoinModalOpen }) => {
-  console.debug("NavBar rendered:", { handleCoinModalOpen });
   const { currentUser, signout } = useUserContext();
   const [openDrawer, setOpenDrawer] = useState(false);
   const [value, setValue] = useState(0);
@@ -90,11 +89,6 @@ const NavBar = ({ handleCoinModalOpen }) => {
                 setValue(route.activeIndex);
               }}
             >
-              {console.log(
-                value,
-                route.activeIndex,
-                value === route.activeIndex
-              )}
               <ListItemText>{route.name}</ListItemText>
             </ListItemButton>
           ))}

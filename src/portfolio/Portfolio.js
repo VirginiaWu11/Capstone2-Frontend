@@ -21,7 +21,6 @@ const Portfolio = ({ portfolioCoins }) => {
 
   const getCoinInfoCoinGecko = useCallback(async (portfolioCoins) => {
     let portfolioCoinsIds = portfolioCoins?.map((coin) => coin.coinGeckoId);
-    console.debug("portfolioCoinsIds", portfolioCoinsIds, portfolioCoins);
     const resp = await CoinGeckoApi.getCoins(1, 1, portfolioCoinsIds, true);
     setCoins(resp);
   }, []);
@@ -122,7 +121,6 @@ const Portfolio = ({ portfolioCoins }) => {
                 <PortfolioLineChart portfolioCoinData={portfolioCoinData} />
               </Grid>
             )}
-            {console.debug("port1", portfolioCoinData.length)}
             {coins.length >= 3 && (
               <Grid item xl={3} lg={4} md={6} xs={12}>
                 <HoldingsDoughnut

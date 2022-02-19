@@ -42,13 +42,10 @@ class CoinGeckoApi {
       sparkline: sparkline,
       // ids: "bitcoin,tether",
     };
-    console.debug("ids in getCoins CoinGecko api:", ids);
     if (ids) {
       requestObj["ids"] = ids.join(",");
     }
-    console.debug({ requestObj, ids });
     let res = await this.request(`coins/markets`, requestObj);
-    console.debug("CoinGeckoApi getCoins", res);
     return res;
   }
 

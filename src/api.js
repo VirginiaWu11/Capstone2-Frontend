@@ -65,7 +65,6 @@ class BackendApi {
 
   static async get_user_portfolio() {
     let res = await this.request(`portfolio`);
-    console.debug("*******11111", res);
     return res.assets;
   }
 

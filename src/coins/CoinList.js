@@ -33,7 +33,6 @@ const CoinList = memo(
     const [listModuleView, setlistModuleView] = useState("module");
     const [itemsPerPage, setItemsPerPage] = useState(16);
     const [page, setPage] = useState(1);
-    console.debug("watchlistIds in CoinList", watchlistIds);
 
     const getCoins = useCallback(async (page, itemsPerPage) => {
       const resp = await CoinGeckoApi.getCoins(page, itemsPerPage);

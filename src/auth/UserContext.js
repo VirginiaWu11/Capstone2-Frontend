@@ -25,7 +25,6 @@ export const UserProvider = ({ children }) => {
         if (token) {
           try {
             let { username } = jwt.decode(token).sub;
-            console.debug({ token, username }, jwt.decode(token).sub);
             BackendApi.token = token;
             let currentUserRes = await BackendApi.getCurrentUser(username);
             setCurrentUser(currentUserRes);
@@ -82,7 +81,6 @@ export const UserProvider = ({ children }) => {
   const updateProfile = useCallback(async (username, newUserData) => {
     try {
       let updatedUser = await BackendApi.updateProfile(username, newUserData);
-      console.debug("appjs", { updatedUser });
       return { success: true, updatedUser };
     } catch (errors) {
       return { success: false, errors };

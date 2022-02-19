@@ -7,7 +7,6 @@ import BackendApi from "../api";
 import CoinGeckoApi from "../CoinGeckoApi";
 
 export default function SearchBar({ handleCoinModalOpen }) {
-  console.debug("searchBar rendered:", { handleCoinModalOpen });
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
   const loading = open && options.length === 0;

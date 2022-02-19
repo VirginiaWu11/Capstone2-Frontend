@@ -21,12 +21,6 @@ export default function PortfolioForm({
   portfolioModalCoin,
   addToPortfolio,
 }) {
-  console.debug(
-    "Portfolio form: open ",
-    portfolioModalopen,
-    handlePortfolioModalClose
-  );
-
   const formik = useFormik({
     initialValues: {
       quantity: ``,

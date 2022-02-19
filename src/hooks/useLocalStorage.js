@@ -7,8 +7,6 @@ function useLocalStorage(key, firstValue = null) {
 
   useEffect(
     function setKeyInLocalStorage() {
-      console.debug("hooks useLocalStorage useEffect", "item=", item);
-
       if (item === null) {
         localStorage.removeItem(key);
       } else {

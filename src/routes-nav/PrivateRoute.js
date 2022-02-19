@@ -4,7 +4,6 @@ import { useUserContext } from "../auth/UserContext";
 
 const PrivateRoute = ({ children }) => {
   const { currentUser } = useUserContext();
-  console.debug("PrivateRoute", "currentUser=", currentUser);
   return currentUser ? children : <Navigate to="/signin" />;
 };
 

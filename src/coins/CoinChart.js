@@ -47,7 +47,6 @@ export function CoinChart({ coinData, maintainAspectRatio = true }) {
     },
   };
 
-  console.debug("inside CoinChart", { coinData });
   const labels = coinData.map((point) =>
     moment(point[0]).local().format("MM/DD/YY h:mm A")
   );

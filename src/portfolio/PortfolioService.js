@@ -3,13 +3,6 @@ import walletIconImage from "../images/walletIcon.png";
 export const currentTotalPortfolioValue = (coins, portfolioCoinsObj) => {
   let sum = 0;
   for (let coin of coins) {
-    console.debug(
-      "coin.current_price",
-      coins,
-      coin.current_price,
-      portfolioCoinsObj[coin.id],
-      portfolioCoinsObj
-    );
     sum += coin.current_price * portfolioCoinsObj[coin.id];
   }
   return sum;
@@ -28,15 +21,6 @@ export const totalPortfolioValueDifference = (
   let hoursAgoTotal = 0;
 
   for (let coin of coins) {
-    console.debug(
-      "hoursdif sparkline",
-      hours,
-      coin.sparkline_in_7d.price[hours],
-      portfolioCoinsObj[coin.id],
-      currentTotal,
-      hoursAgoTotal
-    );
-
     hoursAgoTotal +=
       coin.sparkline_in_7d.price.reverse()[hours] * portfolioCoinsObj[coin.id];
   }
@@ -92,7 +76,6 @@ export const portfolioDonutData = (coins, portfolioCoinsObj) => {
     resultsObj.push(obj);
   }
   resultsObj.sort(dynamicSort("value"));
-  console.debug("resultsObj", resultsObj);
   threeDataPoints.push(resultsObj[0], resultsObj[1]);
   otherVal = resultsObj
     .slice(2)

@@ -30,24 +30,20 @@ import PortfolioForm from "./portfolio/PortfolioForm";
 export const TOKEN_STORAGE_ID = "coinWallet-token";
 
 function App() {
-  console.debug("App rendered");
   const { infoLoaded, setInfoLoaded } = useUserContext();
   const [coinModalOpen, setCoinModalOpen] = useState(false);
   const [clickedCoin, setClickedCoin] = useState({});
-  // const [isLoading, setIsLoading] = useState(true);
   const [watchlistIds, setWatchlistIds] = useState();
   const [portfolioCoins, setPortfolioCoins] = useState();
   const [portfolioModalopen, setPortfolioModalOpen] = useState(false);
   const [portfolioModalCoin, setPortfolioModalCoin] = useState();
 
-  console.debug("portfolioModalopen:", portfolioModalopen);
   useEffect(
     function loadUserPortfolio() {
       async function getUserPortfolio() {
         try {
           let idsResp = await BackendApi.get_user_portfolio();
           setPortfolioCoins(idsResp);
-          console.debug("setPortfolioCoins in useeffect line 45", idsResp);
         } catch (err) {
           console.error("App loadUserPortfolio: problem loading", err);
         }
@@ -63,7 +59,6 @@ function App() {
         try {
           let idsResp = await BackendApi.get_user_watchlist();
           setWatchlistIds(idsResp);
-          console.debug("setWatchlistIds in useeffect line 41", idsResp);
         } catch (err) {
           console.error("App loadUserInfo: problem loading", err);
         }
@@ -71,11 +66,6 @@ function App() {
       getUserWatchlist();
     },
     [setWatchlistIds, infoLoaded]
-  );
-
-  console.debug(
-    "setWatchlistIds after useeffect in app line 55=",
-    watchlistIds
   );
 
   const isPinned = (id) => {
@@ -147,8 +137,6 @@ function App() {
     [handleCoinModalClose, setPortfolioCoins, portfolioCoins]
   );
 
-  // console.debug("Modal in App:", { clickedCoin, isLoading }, { open });
-
   const CoinModal = memo(
     ({
       clickedCoin,
@@ -197,7 +185,6 @@ function App() {
         );
       };
 
-      console.debug("CoinModal Rendered");
       return (
         <div>
           <Dialog
