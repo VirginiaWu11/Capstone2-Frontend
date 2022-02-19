@@ -7,6 +7,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import CardMedia from "@mui/material/CardMedia";
+import PushPinIcon from "@mui/icons-material/PushPin";
+import PushPinOutlinedIcon from "@mui/icons-material/PushPinOutlined";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
 
 const columns = [
   {
@@ -85,13 +90,23 @@ const columns = [
   },
 ];
 
-const CoinTable = ({ coins, handleCoinModalOpen }) => {
+const CoinTable = ({
+  coins,
+  handleCoinModalOpen,
+  isPinned,
+  handlePin,
+  handleUnpin,
+  isOnPortfolio,
+  removeFromPortfolio,
+  handlePortfolioModalOpen,
+}) => {
   return (
     <Paper sx={{ width: "100%", overflow: "hidden", margin: 2 }}>
       <TableContainer sx={{ maxHeight: 665 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
+              <TableCell></TableCell>
               {columns.map((column) => (
                 <TableCell key={column.id} align={column.align}>
                   {column.label}
@@ -112,6 +127,65 @@ const CoinTable = ({ coins, handleCoinModalOpen }) => {
                     handleCoinModalOpen(row);
                   }}
                 >
+                  {/* <PushPinOutlinedIcon /> */}
+                  <TableCell>
+                    {isPinned(row.id) ? (
+                      <IconButton
+                        onMouseDown={(event) => event.stopPropagation()}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          event.preventDefault();
+                          handleUnpin(row.id);
+                        }}
+                      >
+                        <Tooltip title="Unpin from Watchlist">
+                          <PushPinIcon color="primary" />
+                        </Tooltip>
+                      </IconButton>
+                    ) : (
+                      <IconButton
+                        onMouseDown={(event) => event.stopPropagation()}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          event.preventDefault();
+                          handlePin(row.id);
+                        }}
+                      >
+                        <Tooltip title="Pin to Watchlist">
+                          <PushPinOutlinedIcon
+                            sx={{ transform: "rotate(0.20turn)" }}
+                          />
+                        </Tooltip>
+                      </IconButton>
+                    )}
+                    {isOnPortfolio(row.id) ? (
+                      <IconButton
+                        onMouseDown={(event) => event.stopPropagation()}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          event.preventDefault();
+                          removeFromPortfolio(row.id);
+                        }}
+                      >
+                        <Tooltip title="Remove from Portfolio">
+                          <AccountBalanceWalletIcon color="primary" />
+                        </Tooltip>
+                      </IconButton>
+                    ) : (
+                      <IconButton
+                        onMouseDown={(event) => event.stopPropagation()}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          event.preventDefault();
+                          handlePortfolioModalOpen(row);
+                        }}
+                      >
+                        <Tooltip title="Add to Portfolio">
+                          <AccountBalanceWalletIcon />
+                        </Tooltip>
+                      </IconButton>
+                    )}
+                  </TableCell>
                   {columns.map((column) => {
                     const value = row[column.id];
                     return (

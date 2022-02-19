@@ -195,6 +195,12 @@ const CoinList = memo(
             )
           ) : (
             <CoinTable
+              isPinned={isPinned}
+              handlePin={handlePin}
+              handleUnpin={handleUnpin}
+              isOnPortfolio={isOnPortfolio}
+              removeFromPortfolio={removeFromPortfolio}
+              handlePortfolioModalOpen={handlePortfolioModalOpen}
               coins={coins}
               watchlistIds={watchlistIds}
               handleCoinModalOpen={handleCoinModalOpen}
