@@ -391,6 +391,9 @@ function App() {
                       <Portfolio
                         portfolioIds={watchlistIds}
                         portfolioCoins={portfolioCoins}
+                        isOnPortfolio={isOnPortfolio}
+                        removeFromPortfolio={removeFromPortfolio}
+                        handlePortfolioModalOpen={handlePortfolioModalOpen}
                       />
                     ) : null}
                   </PrivateRoute>

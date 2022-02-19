@@ -9,7 +9,12 @@ import * as PortfolioService from "./PortfolioService";
 import LoadingSpinner from "../common/LoadingSpinner";
 import HoldingsTable from "./HoldingsTable";
 
-const Portfolio = ({ portfolioCoins }) => {
+const Portfolio = ({
+  portfolioCoins,
+  isOnPortfolio,
+  removeFromPortfolio,
+  handlePortfolioModalOpen,
+}) => {
   console.debug("PortfolioCoins in Portfolio:", portfolioCoins);
   const [coins, setCoins] = useState([]);
   const [currentTotalValue, setCurrentTotalValue] = useState();
@@ -133,6 +138,9 @@ const Portfolio = ({ portfolioCoins }) => {
               <HoldingsTable
                 portfolioCoinsObj={portfolioCoinsObj}
                 coins={coins}
+                isOnPortfolio={isOnPortfolio}
+                removeFromPortfolio={removeFromPortfolio}
+                handlePortfolioModalOpen={handlePortfolioModalOpen}
               />
             </Grid>
           </Grid>
