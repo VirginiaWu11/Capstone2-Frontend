@@ -8,8 +8,33 @@ const demoUser = {
   email: "test@test.net",
 };
 
-const UserProvider = ({ children, currentUser = demoUser }) => (
-  <UserContext.Provider value={{ currentUser }}>
+const UserProvider = ({
+  children,
+  currentUser = demoUser,
+  setCurrentUser,
+  token,
+  setToken,
+  signup,
+  signin,
+  signout,
+  updateProfile,
+  infoLoaded,
+  setInfoLoaded,
+}) => (
+  <UserContext.Provider
+    value={{
+      currentUser,
+      setCurrentUser,
+      token,
+      setToken,
+      signup,
+      signin,
+      signout,
+      updateProfile,
+      infoLoaded,
+      setInfoLoaded,
+    }}
+  >
     {children}
   </UserContext.Provider>
 );
