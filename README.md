@@ -1,20 +1,20 @@
-# Capstone1
+# Capstone2 - Frontend
 
 [**Capstone Proposal**](https://docs.google.com/document/d/15wQMVok6QCMfPjg0Qaucn1m6866qoDvtEbIkYkT6Vew/edit?usp=sharing)
 
-# Portfolio Coin
+# Coin Portfolio
 
-Portfolio Coin a web application designed for people who are interested in cryptocurrencies. The goal is to have a place to watch any coin and track the amount of each coin they have in their portfolio.  
-[**Click here to visit Portfolio Coin!**](https://portfolio-coin.surge.sh/)
+Coin Portfolio a web application designed for people who are interested in cryptocurrencies' market. The goal is to have a place to watch any coin and track the amount of each coin they have in their portfolio.  
+[**Click here to visit Coin Portfolio!**](https://portfolio-coin.surge.sh/)
 
 ## Features:
 
 - Sign up for a new account.
-- Log in.
+- Authenticate users.
 - Search and view Coins in table, graph or card views.
 - Pin coins to their watchlist.
 - Add coins to their portfolio.
-- View a visualized dashboard of their portfolio.
+- View a dashboard of their portfolio.
 
 ## API:
 
@@ -28,7 +28,7 @@ My [**Backend API**](https://github.com/VirginiaWu11/Capstone2-Backend) was also
 - In addition to the list of 9,000 coins mentioned above, my backend is also storing the user sign in, watchlist, and portfolio information.
 - Flask-JWT and Flask Bcrypt are used to authenticate the user.
 
-## App Navigation
+## App Navigation:
 
 - When the user first opens the page, the user has the option to sign up for an account or sign into an existing account.  
   The user must be signed in to view the rest of the application.
