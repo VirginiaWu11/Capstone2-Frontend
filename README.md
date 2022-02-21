@@ -85,6 +85,7 @@ My [**Backend API**](https://github.com/VirginiaWu11/Capstone2-Backend) was also
 ## Future goals:
 
 - Add feature sort coins table.
+- Add Ability to edit the amount of coins in the user's portfolio.
 - A chron job to be added to the backend to keep the database coins updated as there are more coins in the market.
 - Add an emailing alert feather for when the user's portfolio amount changes significantly.
 
