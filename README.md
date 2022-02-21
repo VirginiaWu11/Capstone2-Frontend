@@ -72,7 +72,7 @@ My [**Backend API**](https://github.com/VirginiaWu11/Capstone2-Backend) was also
 
 ### Portfolio Tab
 
-<img src="./src/images/portfolio.gif" width="600"/>
+<img src="./src/images/Portfolio.gif" width="600"/>
 
 &nbsp;
 
