@@ -26,7 +26,7 @@ const Portfolio = ({
 
   const getCoinInfoCoinGecko = useCallback(async (portfolioCoins) => {
     let portfolioCoinsIds = portfolioCoins?.map((coin) => coin.coinGeckoId);
-    const resp = await CoinGeckoApi.getCoins(1, 1, portfolioCoinsIds, true);
+    const resp = await CoinGeckoApi.getCoins(1, 100, portfolioCoinsIds, true);
     setCoins(resp);
   }, []);
 
