@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -13,6 +13,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Alert from "@mui/material/Alert";
 import Container from "@mui/material/Container";
 import { useUserContext } from "./UserContext";
+import { getRandomHomeImage } from "../utils/helper";
 
 import * as yup from "yup";
 import { useFormik } from "formik";
@@ -27,6 +28,7 @@ export default function SigninForm() {
   const [formErrors, setFormErrors] = useState([]);
   const navigate = useNavigate();
   const { signin } = useUserContext();
+  const homePageImage = useMemo(() => getRandomHomeImage(), []);
 
   const formik = useFormik({
     initialValues: {
@@ -54,7 +56,7 @@ export default function SigninForm() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: "url(https://source.unsplash.com/random/?crypto)",
+            backgroundImage: `url(${homePageImage})`,
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
               t.palette.mode === "light"

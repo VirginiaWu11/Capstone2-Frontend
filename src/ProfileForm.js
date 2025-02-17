@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,6 +12,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Alert from "@mui/material/Alert";
 import Container from "@mui/material/Container";
 import { useUserContext } from "./auth/UserContext";
+import { getRandomHomeImage } from "./utils/helper";
 
 import * as yup from "yup";
 import { useFormik } from "formik";
@@ -33,6 +34,7 @@ export default function ProfileForm({ signup }) {
 
   const { currentUser, setCurrentUser, updateProfile } = useUserContext();
   console.debug("ProfileForm", "signup=", { formErrors }, currentUser);
+  const homePageImage = useMemo(() => getRandomHomeImage(), []);
 
   const formik = useFormik({
     initialValues: {
@@ -66,7 +68,7 @@ export default function ProfileForm({ signup }) {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: "url(https://source.unsplash.com/random/?crypto)",
+            backgroundImage: `url(${homePageImage})`,
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
               t.palette.mode === "light"

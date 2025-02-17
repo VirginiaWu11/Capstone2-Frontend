@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import Paper from "@mui/material/Paper";
@@ -8,11 +8,14 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 import { useUserContext } from "./auth/UserContext";
+import { getRandomHomeImage } from "./utils/helper";
 
 const theme = createTheme();
 
 export default function Home() {
   const { currentUser } = useUserContext();
+  const homePageImage = useMemo(() => getRandomHomeImage(), []);
+
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
@@ -23,7 +26,8 @@ export default function Home() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: "url(https://source.unsplash.com/random/?crypto)",
+            // backgroundImage: "url(https://source.unsplash.com/random/?crypto)", //api endpoint deprecated
+            backgroundImage: `url(${homePageImage})`,
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
             backgroundPosition: "center",
