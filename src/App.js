@@ -38,6 +38,8 @@ function App() {
           console.error("App loadUserPortfolio: problem loading", err);
         }
       }
+
+      if (!BackendApi.token) return;
       getUserPortfolio();
     },
     [setPortfolioCoins, infoLoaded, setInfoLoaded]
@@ -53,6 +55,7 @@ function App() {
           console.error("App loadUserInfo: problem loading", err);
         }
       }
+      if (!BackendApi.token) return;
       getUserWatchlist();
     },
     [setWatchlistIds, infoLoaded]
